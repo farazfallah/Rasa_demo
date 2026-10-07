@@ -1,0 +1,190 @@
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --bg: #faf9f6;
+  --bg-alt: #f1efe9;
+  --card: #ffffff;
+  --ink: #1b2232;
+  --muted: #5f6878;
+  --line: #e4e0d6;
+  --brand: #1f5aa6;
+  --brand-ink: #ffffff;
+  --brand-soft: #e7eefa;
+  --accent: #e0a526;
+  --danger: #b42318;
+  --radius: 18px;
+  --shadow: 0 20px 50px -24px rgba(25, 45, 90, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11141b;
+    --bg-alt: #161a23;
+    --card: #1b202b;
+    --ink: #e8eaf0;
+    --muted: #a0a8b8;
+    --line: #2a3141;
+    --brand: #6e9fe6;
+    --brand-ink: #0d1422;
+    --brand-soft: #1c2840;
+    --danger: #f19a92;
+    --shadow: 0 20px 50px -24px rgba(0, 0, 0, 0.7);
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.9 "Vazirmatn", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- سربرگ ---------- */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.top-inner { display: flex; align-items: center; gap: 24px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; text-decoration: none; }
+.nav { display: flex; gap: 22px; margin-inline-start: auto; }
+.nav a { text-decoration: none; color: var(--muted); font-size: 15px; }
+.nav a:hover { color: var(--ink); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+  border-radius: 12px; padding: 10px 22px; border: 1px solid transparent;
+  transition: transform .15s, background .15s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--brand); color: var(--brand-ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--brand) 88%, #000); }
+.btn-ghost { border-color: var(--line); background: var(--card); }
+.btn-ghost:hover { border-color: var(--brand); }
+.btn-sm { padding: 6px 16px; font-size: 14px; }
+.btn-block { width: 100%; }
+.btn[disabled] { opacity: .6; cursor: default; }
+
+/* ---------- قهرمان ---------- */
+.hero { padding: 64px 0 40px; overflow: hidden; }
+.hero-inner { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
+.eyebrow { color: var(--brand); font-weight: 700; margin: 0 0 8px; }
+h1 { font-size: clamp(30px, 4.4vw, 48px); line-height: 1.35; margin: 0 0 16px; font-weight: 900; }
+.hl { color: var(--brand); white-space: nowrap; }
+.lead { font-size: 18px; color: var(--muted); margin: 0 0 28px; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-points { list-style: none; padding: 0; margin: 28px 0 0; color: var(--muted); font-size: 15px; }
+.hero-points li::before, .checks li::before { content: "✓"; color: var(--brand); font-weight: 900; margin-inline-end: 8px; }
+.hero-shot { position: relative; margin: 0; }
+.hero-shot > img:first-child {
+  border-radius: var(--radius); border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.hero-phone {
+  position: absolute; width: 30%; bottom: -24px; inset-inline-end: -12px;
+  border-radius: 22px; border: 6px solid var(--ink); box-shadow: var(--shadow);
+  aspect-ratio: 420 / 860; object-fit: cover; object-position: top;
+}
+
+/* ---------- بخش‌ها ---------- */
+.section { padding: 72px 0; }
+.section-alt { background: var(--bg-alt); }
+.section-title { font-size: clamp(24px, 3vw, 32px); margin: 0 0 8px; font-weight: 800; }
+.section-sub { color: var(--muted); margin: 0 0 32px; }
+
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.feature {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.feature h3 { margin: 0 0 6px; font-size: 17px; }
+.feature h3::before {
+  content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+  background: var(--brand); margin-inline-end: 10px; vertical-align: 2px;
+}
+.feature p { margin: 0; color: var(--muted); font-size: 15px; }
+.more { color: var(--muted); margin: 24px 0 0; }
+
+.roles { display: grid; grid-template-columns: 1fr 1fr 0.45fr; gap: 20px; align-items: start; margin-top: 28px; }
+.role { margin: 0; }
+.role img { border-radius: var(--radius); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.role-phone img { border-radius: 22px; border: 5px solid var(--ink); aspect-ratio: 420 / 860; object-fit: cover; object-position: top; }
+.role figcaption { margin-top: 12px; color: var(--muted); font-size: 15px; }
+.role figcaption b { color: var(--ink); margin-inline-end: 6px; }
+
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.steps li {
+  counter-increment: step; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 4px;
+}
+.steps li::before {
+  content: counter(step, persian); display: grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 50%; background: var(--brand-soft); color: var(--brand);
+  font-weight: 800; margin-bottom: 8px;
+}
+.steps span { color: var(--muted); font-size: 15px; }
+.note { color: var(--muted); font-size: 14px; margin: 20px 0 0; }
+
+/* ---------- فرم ---------- */
+.request { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: start; }
+.request-text p { color: var(--muted); }
+.checks { list-style: none; padding: 0; margin: 20px 0 0; }
+.form, .done {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow);
+}
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; flex: 1; min-width: 0; }
+.row { display: flex; gap: 12px; }
+label { font-size: 14px; font-weight: 600; }
+input, select, textarea {
+  font: inherit; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; width: 100%;
+}
+input, select, textarea { scroll-margin-top: 96px; }
+input:focus, select:focus, textarea:focus { outline: 2px solid color-mix(in srgb, var(--brand) 40%, transparent); border-color: var(--brand); }
+input[aria-invalid="true"] { border-color: var(--danger); }
+.hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.form-error { color: var(--danger); min-height: 1.5em; margin: 0 0 8px; font-size: 14px; }
+.done h3 { margin: 0 0 8px; color: var(--brand); }
+.done p { margin: 0; color: var(--muted); }
+
+/* ---------- پرسش‌ها ---------- */
+.faq details, .faq .section-title { max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.faq summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::after { content: "+"; color: var(--brand); font-weight: 800; }
+.faq details[open] summary::after { content: "−"; }
+.faq p { color: var(--muted); margin: 8px 0 0; }
+
+.footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); font-size: 14px; }
+.footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- موبایل ---------- */
+@media (max-width: 900px) {
+  .nav { display: none; }
+  .top-inner { justify-content: space-between; }
+  .hero { padding-top: 36px; }
+  .hero-inner, .request { grid-template-columns: 1fr; gap: 36px; }
+  .features { grid-template-columns: 1fr 1fr; }
+  .roles { grid-template-columns: 1fr; }
+  .role-phone { max-width: 260px; }
+  .steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .features, .steps { grid-template-columns: 1fr; }
+  .row { flex-direction: column; gap: 0; }
+  .hero-phone { width: 34%; inset-inline-end: -4px; }
+  .section { padding: 52px 0; }
+}

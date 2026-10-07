@@ -1,0 +1,116 @@
+# نسخه نمایشی سامانه رسا: سایت معرفی + اپ نمایشی + کیت دمو روی یک سرور
+#   cp .env.example .env   (و مقادیر را تنظیم کنید)
+#   docker load -i images.tar          (ایمیج‌های madreseh-api و madreseh-web از بسته انتشار اپ)
+#   docker compose up -d --build
+# ساخت اولیه مدرسه نمونه چند دقیقه طول می‌کشد؛ وضعیت در پنل: https://SITE_DOMAIN/panel
+name: rasa-demo
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: madreseh
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: madreseh
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U madreseh"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  # همان نسخه رسمی اپ؛ هیچ تغییری برای دمو ندارد
+  api:
+    image: madreseh-api:${APP_VERSION:?set APP_VERSION}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://madreseh:${POSTGRES_PASSWORD}@postgres:5432/madreseh
+      REDIS_URL: redis://redis:6379
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?set JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?set JWT_REFRESH_SECRET}
+      WEB_ORIGIN: https://${DEMO_DOMAIN}
+      PUBLIC_URL: https://${DEMO_DOMAIN}
+      COOKIE_SECURE: "true"
+      # Caddy و nginx داخل web: دو پراکسی
+      TRUST_PROXY: "2"
+      SCHOOL_TIMEZONE: Asia/Tehran
+      API_WORKERS: ${API_WORKERS:-2}
+    volumes:
+      - uploads:/app/apps/api/uploads
+    # migration، seed پایه (نقش‌ها و تنظیمات؛ تکراری بی‌ضرر است) و اجرای سرور
+    command: ["sh", "-c", "node dist/db/migrate.js && node dist/db/seed.js && exec node dist/main.js"]
+
+  web:
+    image: madreseh-web:${APP_VERSION}
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  kit:
+    build:
+      context: ../kit
+      args:
+        API_IMAGE: madreseh-api:${APP_VERSION}
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      API_URL: http://api:3000/api
+      DATABASE_URL: postgres://madreseh:${POSTGRES_PASSWORD}@postgres:5432/madreseh
+      REDIS_URL: redis://redis:6379
+      UPLOADS_DIR: /uploads
+      DEMO_ROOT_PASSWORD: ${DEMO_ROOT_PASSWORD:?set DEMO_ROOT_PASSWORD}
+      PANEL_USER: ${PANEL_USER:-admin}
+      PANEL_PASSWORD: ${PANEL_PASSWORD:?set PANEL_PASSWORD}
+      DEMO_URL: https://${DEMO_DOMAIN}/login
+      SITE_ORIGIN: https://${SITE_DOMAIN}
+      RESET_AT: ${RESET_AT:-03:30}
+      LEAD_DAYS: ${LEAD_DAYS:-7}
+      ZARINPAL_SANDBOX_MERCHANT: ${ZARINPAL_SANDBOX_MERCHANT:-}
+      MAINTENANCE_FILE: /state/maintenance
+    volumes:
+      - kitdata:/data
+      - state:/state
+      - uploads:/uploads
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?set SITE_DOMAIN}
+      DEMO_DOMAIN: ${DEMO_DOMAIN:?set DEMO_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./maintenance.html:/srv/maintenance/index.html:ro
+      - ../site:/srv/site:ro
+      - state:/state:ro
+      - caddydata:/data
+      - caddyconfig:/config
+    depends_on:
+      - web
+      - kit
+
+volumes:
+  pgdata:
+  uploads:
+  kitdata:
+  state:
+  caddydata:
+  caddyconfig:

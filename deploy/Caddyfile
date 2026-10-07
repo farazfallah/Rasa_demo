@@ -1,0 +1,52 @@
+# دو دامنه: سایت معرفی (با فرم درخواست و پنل) و نسخه نمایشی اپ
+# گواهی HTTPS خودکار گرفته می‌شود؛ دامنه‌ها باید به IP همین سرور اشاره کنند.
+
+{$SITE_DOMAIN} {
+	encode zstd gzip
+
+	# فرم درخواست دمو و پنل مدیریت درخواست‌ها
+	handle /api/demo-requests {
+		reverse_proxy kit:8090
+	}
+	handle /panel* {
+		reverse_proxy kit:8090
+	}
+
+	handle {
+		root * /srv/site
+		header /assets/* Cache-Control "public, max-age=86400"
+		header /fonts/* Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+}
+
+{$DEMO_DOMAIN} {
+	encode zstd gzip
+
+	# هنگام بازسازی شبانه
+	@maintenance file {
+		root /state
+		try_files /maintenance
+	}
+	handle @maintenance {
+		root * /srv/maintenance
+		rewrite * /index.html
+		file_server {
+			status 503
+		}
+	}
+
+	# در نسخه نمایشی رمز و مشخصات حساب تغییر نمی‌کند (حساب‌ها مشترک نیستند ولی هر شب از نو ساخته می‌شوند)
+	@blocked {
+		method PATCH
+		path /api/auth/password /api/auth/profile
+	}
+	handle @blocked {
+		header Content-Type "application/json; charset=utf-8"
+		respond `{"statusCode":403,"message":"این کار در نسخه نمایشی غیرفعال است"}` 403
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+}

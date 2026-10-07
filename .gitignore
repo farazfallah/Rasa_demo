@@ -1,0 +1,4 @@
+node_modules/
+kit/data/
+deploy/.env
+deploy/data/

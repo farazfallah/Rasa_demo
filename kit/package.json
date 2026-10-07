@@ -1,0 +1,16 @@
+{
+  "name": "rasa-demo-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "نسخه نمایشی سامانه رسا: ساخت داده نمونه، بازسازی شبانه و مدیریت دسترسی متقاضیان",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/server.js",
+    "cli": "node src/cli.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}
