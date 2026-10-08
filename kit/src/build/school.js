@@ -50,6 +50,7 @@ export async function buildSchool(config) {
   await step('library', () => history.library(ctx, cur.flatMap((c) => c.students)));
   await step('announcements', () => history.announcements(ctx, cur));
   await step('reports', () => history.publishReports(ctx));
+  await step('term exams', () => history.termExams(ctx, cur));
   await step('submissions', () => history.homeworkSubmissions(ctx, assignments.filter((a) => a.cls === examClass), examClass.students));
   await step('exams', async () => (await history.onlineExams(ctx, examClass)).takers);
   await step('forms', () => history.forms(ctx, examClass));

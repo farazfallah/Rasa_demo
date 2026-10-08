@@ -3,25 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>سامانه رسا | مدیریت یکپارچه مدرسه</title>
-<meta name="description" content="سامانه رسا: حضور و غیاب، نمره و کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا در یک سامانه فارسی که روی سرور خود مدرسه نصب می‌شود.">
-<meta name="theme-color" content="#1f5aa6">
+<title>سامانه رسا | سامانه یکپارچه مدیریت مدرسه</title>
+<meta name="description" content="رسا حضور و غیاب، دفتر نمره و کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و ارتباط با اولیا را در یک سامانه فارسی جمع می‌کند؛ روی سرور خود مدرسه.">
+<meta name="theme-color" content="#0f1b33">
+<meta property="og:title" content="سامانه رسا | سامانه یکپارچه مدیریت مدرسه">
+<meta property="og:description" content="حضور و غیاب، نمره و کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا در یک سامانه.">
+<meta property="og:image" content="/assets/shots/dashboard.jpg">
+<meta property="og:locale" content="fa_IR">
 <link rel="preload" href="/fonts/Vazirmatn.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
 
-<header class="top">
+<!-- آیکون‌ها (خطی، ۲۴×۲۴) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-attendance" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-exam" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+    <symbol id="i-seats" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.94a.5.5 0 0 0-.76-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top" id="top">
   <div class="container top-inner">
     <a class="brand" href="#">
       <img src="/assets/logo.svg" alt="" width="36" height="36">
       <span>سامانه رسا</span>
     </a>
-    <nav class="nav" aria-label="بخش‌ها">
-      <a href="#features">امکانات</a>
-      <a href="#roles">برای هر نقش</a>
-      <a href="#demo">دمو</a>
+    <nav class="nav" aria-label="بخش‌های صفحه">
+      <a href="#tour">امکانات</a>
+      <a href="#mobile">اولیا و دانش‌آموزان</a>
+      <a href="#modules">همه بخش‌ها</a>
+      <a href="#trust">امنیت و نصب</a>
       <a href="#faq">پرسش‌ها</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="#request">درخواست دمو</a>
@@ -29,215 +69,426 @@
 </header>
 
 <main>
+  <!-- ---------------------------------------------------------------- قهرمان -->
   <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-text">
-        <p class="eyebrow">سامانه جامع مدیریت مدرسه</p>
-        <h1>همه کارهای مدرسه،<br><span class="hl">در یک سامانه</span></h1>
-        <p class="lead">از حضور و غیاب و دفتر نمره تا آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا. فارسی، ساده و روی سرور خود مدرسه.</p>
+        <p class="pill"><span class="dot"></span>سامانه یکپارچه مدیریت مدرسه</p>
+        <h1>مدرسه‌ای منظم‌تر،<br><span class="hl">با زحمت کمتر</span></h1>
+        <p class="lead">رسا همه کارهای روزمره مدرسه را یک‌جا جمع می‌کند: حضور و غیاب، دفتر نمره و کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و ارتباط با اولیا. فارسی، ساده و روی سرور خود مدرسه.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#request">درخواست دسترسی دمو</a>
-          <a class="btn btn-ghost" href="#features">مشاهده امکانات</a>
+          <a class="btn btn-primary btn-lg" href="#request">درخواست دمو رایگان <svg class="ic"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost btn-lg" href="#tour">مشاهده امکانات</a>
         </div>
-        <ul class="hero-points">
-          <li>دمو با چهار نقش: مدیر، معلم، ولی و دانش‌آموز</li>
-          <li>مدرسه نمونه با سابقه کامل یک سال تحصیلی</li>
+        <ul class="hero-trust">
+          <li><svg class="ic"><use href="#i-check"/></svg>فارسی و راست‌به‌چپ از پایه</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>تقویم شمسی و تعطیلات رسمی</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>اطلاعات نزد خود مدرسه</li>
         </ul>
       </div>
-      <figure class="hero-shot">
-        <img src="/assets/shots/admin.jpg" alt="داشبورد مدیر مدرسه در سامانه رسا" width="1440" height="900">
-        <img class="hero-phone" src="/assets/shots/parent.jpg" alt="نمای موبایل پرتال اولیا" width="420" height="860">
-      </figure>
+      <div class="hero-visual">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>داشبورد مدیر</span></div>
+          <img src="/assets/shots/dashboard.jpg" alt="داشبورد مدیر مدرسه در سامانه رسا" width="1600" height="1000">
+        </div>
+        <div class="phone hero-phone">
+          <img src="/assets/shots/student-exams.jpg" alt="آزمون‌های دانش‌آموز روی موبایل" width="480" height="984">
+        </div>
+        <div class="float-card fc-1">
+          <span class="fc-icon ok"><svg class="ic"><use href="#i-attendance"/></svg></span>
+          <span><b>حضور و غیاب امروز ثبت شد</b><small>اولیای غایبان با پیامک باخبر شدند</small></span>
+        </div>
+        <div class="float-card fc-2">
+          <span class="fc-icon"><svg class="ic"><use href="#i-file"/></svg></span>
+          <span><b>کارنامه نوبت اول</b><small>با یک کلیک برای اولیا منتشر شد</small></span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="features" class="section">
+  <!-- ---------------------------------------------------------------- مسئله -->
+  <section class="section">
     <div class="container">
-      <h2 class="section-title">امکانات</h2>
-      <p class="section-sub">هر بخش جداگانه فعال یا غیرفعال می‌شود و هر نقش فقط چیزی را می‌بیند که به آن نیاز دارد.</p>
-      <div class="features">
-        <article class="feature">
-          <h3>حضور و غیاب</h3>
-          <p>روزانه یا زنگ‌به‌زنگ، اتصال به دستگاه اثر انگشت و کارت، پیامک خودکار غیبت و تأخیر به اولیا.</p>
+      <div class="head center">
+        <p class="eyebrow">چرا رسا؟</p>
+        <h2>اطلاعات مدرسه نباید بین ده‌ها دفتر و فایل پراکنده باشد</h2>
+        <p class="sub">بیشتر وقت کادر مدرسه صرف رونویسی، جمع‌زدن و پیگیری تلفنی می‌شود. رسا این کارها را خودکار می‌کند تا وقت شما صرف آموزش شود.</p>
+      </div>
+      <div class="compare">
+        <div class="compare-col before">
+          <h3>بدون رسا</h3>
+          <ul>
+            <li><svg class="ic"><use href="#i-x"/></svg>دفتر حضور و غیاب کاغذی و تماس تلفنی با اولیا</li>
+            <li><svg class="ic"><use href="#i-x"/></svg>نمره‌ها در فایل‌های اکسل جدا و محاسبه دستی معدل</li>
+            <li><svg class="ic"><use href="#i-x"/></svg>برنامه هفتگی و امتحانات روی کاغذ، با تداخل‌های پنهان</li>
+            <li><svg class="ic"><use href="#i-x"/></svg>پیگیری شهریه با دفترچه و یادداشت</li>
+            <li><svg class="ic"><use href="#i-x"/></svg>اطلاع‌رسانی پراکنده در گروه‌های پیام‌رسان</li>
+          </ul>
+        </div>
+        <div class="compare-col after">
+          <h3>با رسا</h3>
+          <ul>
+            <li><svg class="ic"><use href="#i-check"/></svg>ثبت حضور در چند ثانیه و پیامک خودکار به اولیا</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>دفتر نمره‌ای که معدل، رتبه و کارنامه را خودش می‌سازد</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>چیدن خودکار برنامه و امتحانات، بدون هیچ تداخل</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>صورتحساب، قسط، پرداخت آنلاین و رسید در یک جا</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>اطلاعیه برای همه، یک نقش یا یک کلاس، با اعلان</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- تور امکانات -->
+  <section id="tour" class="section section-tint">
+    <div class="container">
+      <div class="head center">
+        <p class="eyebrow">امکانات اصلی</p>
+        <h2>هر کار مدرسه، ساده‌تر از قبل</h2>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="امکانات اصلی">
+        <button role="tab" aria-selected="true" aria-controls="p-att" id="t-att"><svg class="ic"><use href="#i-attendance"/></svg>حضور و غیاب</button>
+        <button role="tab" aria-selected="false" aria-controls="p-grade" id="t-grade"><svg class="ic"><use href="#i-chart"/></svg>نمره و کارنامه</button>
+        <button role="tab" aria-selected="false" aria-controls="p-exam" id="t-exam"><svg class="ic"><use href="#i-exam"/></svg>آزمون آنلاین</button>
+        <button role="tab" aria-selected="false" aria-controls="p-tt" id="t-tt"><svg class="ic"><use href="#i-grid"/></svg>برنامه هفتگی</button>
+        <button role="tab" aria-selected="false" aria-controls="p-term" id="t-term"><svg class="ic"><use href="#i-seats"/></svg>امتحانات نوبت</button>
+        <button role="tab" aria-selected="false" aria-controls="p-fin" id="t-fin"><svg class="ic"><use href="#i-wallet"/></svg>شهریه و مالی</button>
+      </div>
+
+      <div class="panels">
+        <article class="panel" role="tabpanel" id="p-att" aria-labelledby="t-att">
+          <div class="panel-text">
+            <h3>حضور و غیاب در چند ثانیه</h3>
+            <p>معلم یا معاون با چند لمس حضور کلاس را ثبت می‌کند؛ روزانه یا زنگ‌به‌زنگ. غیبت و تأخیر همان لحظه با پیامک به اولیا اطلاع داده می‌شود. اگر دستگاه اثر انگشت یا کارت دارید، ورود دانش‌آموزان و کارکنان خودکار ثبت می‌شود.</p>
+            <ul class="checks">
+              <li>تقویم شمسی با تعطیلات رسمی</li>
+              <li>دفتر کلاسی، زنگ‌های ثبت‌نشده و معلم جانشین</li>
+              <li>گزارش غیبت کلاس و دانش‌آموز با خروجی اکسل</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>حضور و غیاب</span></div><img src="/assets/shots/attendance.jpg" alt="ثبت حضور و غیاب کلاس" loading="lazy" width="1600" height="1000"></div>
         </article>
-        <article class="feature">
-          <h3>دفتر نمره و کارنامه</h3>
-          <p>ارزشیابی وزنی، ورود سریع نمره شبیه اکسل، کارنامه نوبت و پایان سال، رتبه‌بندی و خروجی اکسل.</p>
+
+        <article class="panel" role="tabpanel" id="p-grade" aria-labelledby="t-grade" hidden>
+          <div class="panel-text">
+            <h3>دفتر نمره‌ای که خودش حساب می‌کند</h3>
+            <p>ارزشیابی‌های مستمر و پایانی را با ضریب دلخواه تعریف کنید و نمره‌ها را مثل اکسل وارد کنید. معدل، رتبه و کارنامه نوبت و پایان سال خودکار ساخته می‌شود و با یک کلیک برای اولیا منتشر می‌شود. مدیر نفرات برتر و دانش‌آموزان در معرض افت را از همان روزهای اول می‌بیند.</p>
+            <ul class="checks">
+              <li>رتبه در کلاس و پایه</li>
+              <li>کارنامه چاپی و PDF</li>
+              <li>گزارش دروس زیر حد نصاب</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>گزارش‌های مدیریتی</span></div><img src="/assets/shots/reports.jpg" alt="گزارش نفرات برتر مدرسه" loading="lazy" width="1600" height="1000"></div>
         </article>
-        <article class="feature">
-          <h3>آزمون آنلاین</h3>
-          <p>هشت نوع سؤال با فرمول ریاضی، نسخه‌های مختلف، تصحیح خودکار و سریع، ضدتقلب و تحلیل نتایج.</p>
+
+        <article class="panel" role="tabpanel" id="p-exam" aria-labelledby="t-exam" hidden>
+          <div class="panel-text">
+            <h3>آزمون آنلاین، بدون دغدغه</h3>
+            <p>هشت نوع سؤال، از چندگزینه‌ای و جای خالی تا تشریحی و بارگذاری عکس برگه، با پشتیبانی از فرمول ریاضی. هر دانش‌آموز نسخه متفاوتی از آزمون می‌گیرد و سؤال‌های بسته خودکار تصحیح می‌شوند. اگر اینترنت دانش‌آموز وسط آزمون قطع شود، پاسخ‌هایش از دست نمی‌رود.</p>
+            <ul class="checks">
+              <li>حالت ضدتقلب و ثبت رویدادهای مشکوک</li>
+              <li>تصحیح سریع تشریحی، سؤال‌به‌سؤال</li>
+              <li>انتقال نمره به دفتر نمره پس از بازبینی</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>آزمون آنلاین</span></div><img src="/assets/shots/exam.jpg" alt="طراحی سؤال آزمون آنلاین" loading="lazy" width="1600" height="1000"></div>
         </article>
-        <article class="feature">
-          <h3>برنامه هفتگی هوشمند</h3>
-          <p>چیدن خودکار یا دستی با کشیدن و رها کردن، تشخیص تداخل معلم، تک‌زنگ و نیم‌کلاس.</p>
+
+        <article class="panel" role="tabpanel" id="p-tt" aria-labelledby="t-tt" hidden>
+          <div class="panel-text">
+            <h3>برنامه هفتگی بدون تداخل</h3>
+            <p>برنامه کل مدرسه را در چند ثانیه خودکار بچینید، یا درس‌ها را با کشیدن و رها کردن خودتان بچینید. رسا هر تداخل معلم و هر محدودیت را همان لحظه نشان می‌دهد و می‌تواند بقیه برنامه را دور چیدمان شما کامل کند.</p>
+            <ul class="checks">
+              <li>تک‌زنگ یک هفته در میان و نیم‌کلاس</li>
+              <li>روزهای حضور و سقف ساعت هر معلم</li>
+              <li>پیش‌نویس، بازگشت و چاپ برنامه</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>برنامه هفتگی</span></div><img src="/assets/shots/timetable.jpg" alt="برنامه‌ریز هفتگی" loading="lazy" width="1600" height="1000"></div>
         </article>
-        <article class="feature">
-          <h3>امتحانات نوبت</h3>
-          <p>برنامه امتحانات، چیدمان صندلی‌ها، کارت ورود به جلسه، لیست حضور و ثبت نمره کتبی.</p>
+
+        <article class="panel" role="tabpanel" id="p-term" aria-labelledby="t-term" hidden>
+          <div class="panel-text">
+            <h3>امتحانات نوبت، از برنامه تا صندلی</h3>
+            <p>برنامه امتحانات هر پایه خودکار چیده می‌شود و صندلی‌ها طوری تقسیم می‌شوند که هم‌کلاسی‌ها کنار هم ننشینند. کارت ورود به جلسه، لیست حضور هر سالن و نقشه صندلی‌ها آماده چاپ است و نمره کتبی در جدولی شبیه اکسل وارد می‌شود.</p>
+            <ul class="checks">
+              <li>چیدمان خودکار با فاصله بین امتحان‌ها</li>
+              <li>کارت ورود و لیست حضور جلسه</li>
+              <li>برنامه امتحانات در پنل دانش‌آموز و ولی</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>نقشه صندلی‌ها</span></div><img src="/assets/shots/seating.jpg" alt="نقشه صندلی‌های جلسه امتحان" loading="lazy" width="1600" height="1000"></div>
         </article>
-        <article class="feature">
-          <h3>شهریه و مالی</h3>
-          <p>صدور گروهی صورتحساب با قسط و تخفیف، پرداخت آنلاین، رسید چاپی، گزارش بدهکاران و حقوق کارکنان.</p>
-        </article>
-        <article class="feature">
-          <h3>پرتال اولیا و دانش‌آموز</h3>
-          <p>نمره، غیبت، تکلیف، انضباط، شهریه و برنامه فرزند روی موبایل؛ اطلاعیه‌ها با اعلان.</p>
-        </article>
-        <article class="feature">
-          <h3>دفتر کلاسی و جانشین</h3>
-          <p>ثبت موضوع تدریس هر زنگ، پیگیری دفترهای ثبت‌نشده و تعیین معلم جانشین.</p>
-        </article>
-        <article class="feature">
-          <h3>فرم و رضایت‌نامه</h3>
-          <p>رضایت‌نامه اردو و نظرسنجی آنلاین با پرداخت هزینه و خروجی اکسل پاسخ‌ها.</p>
-        </article>
-        <article class="feature">
-          <h3>کلاس آنلاین</h3>
-          <p>اتصال به BigBlueButton، حضور و غیاب خودکار و آرشیو جلسات ضبط‌شده.</p>
-        </article>
-        <article class="feature">
-          <h3>دبیرخانه و گواهی</h3>
-          <p>صدور گواهی اشتغال به تحصیل و نامه با شماره ثبت و کد استعلام.</p>
-        </article>
-        <article class="feature">
-          <h3>گزارش‌های مدیریتی</h3>
-          <p>نفرات برتر، دانش‌آموزان در معرض خطر، حضور و غیاب، انضباط و وضعیت مالی در یک نگاه.</p>
+
+        <article class="panel" role="tabpanel" id="p-fin" aria-labelledby="t-fin" hidden>
+          <div class="panel-text">
+            <h3>شهریه شفاف، پیگیری آسان</h3>
+            <p>صورتحساب یک کلاس را یک‌جا، با تخفیف و قسط صادر کنید. اولیا آنلاین پرداخت می‌کنند و رسید می‌گیرند و بدهی‌ها و اقساط معوق همیشه پیش چشم حسابداری است. حقوق و فیش کارکنان هم در همین بخش است.</p>
+            <ul class="checks">
+              <li>پرداخت آنلاین با درگاه بانکی</li>
+              <li>رسید چاپی و خروجی اکسل</li>
+              <li>فیش حقوقی برای هر کارمند</li>
+            </ul>
+          </div>
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>مالی و شهریه</span></div><img src="/assets/shots/finance.jpg" alt="مدیریت شهریه و صورتحساب‌ها" loading="lazy" width="1600" height="1000"></div>
         </article>
       </div>
-      <p class="more">و همچنین: پیش‌ثبت‌نام آنلاین، وب‌سایت عمومی مدرسه، کتابخانه، تقویم آموزشی، پیامک، تردد کارکنان و ثبت کامل فعالیت‌ها.</p>
     </div>
   </section>
 
-  <section id="roles" class="section section-alt">
+  <!-- ---------------------------------------------------------------- موبایل -->
+  <section id="mobile" class="section band">
+    <div class="container band-inner">
+      <div class="band-text">
+        <p class="eyebrow light">اولیا و دانش‌آموزان</p>
+        <h2>همه در جریان، روی گوشی</h2>
+        <p>اولیا نمره، غیبت، تکلیف، انضباط و شهریه فرزندشان را هر لحظه می‌بینند و اطلاعیه‌های مدرسه را با اعلان دریافت می‌کنند. دانش‌آموز برنامه روز، تکالیف، آزمون‌ها و کارنامه‌اش را یک‌جا دارد.</p>
+        <ul class="band-list">
+          <li><svg class="ic"><use href="#i-bell"/></svg>اطلاعیه برای همه، یک نقش یا یک کلاس</li>
+          <li><svg class="ic"><use href="#i-message"/></svg>پیامک غیبت، تأخیر و اطلاعیه‌های مهم</li>
+          <li><svg class="ic"><use href="#i-pen"/></svg>ارسال پاسخ تکلیف با متن یا عکس</li>
+          <li><svg class="ic"><use href="#i-wallet"/></svg>پرداخت شهریه و فرم رضایت‌نامه آنلاین</li>
+        </ul>
+      </div>
+      <div class="phones">
+        <div class="phone p-left"><img src="/assets/shots/student-grades.jpg" alt="وضعیت تحصیلی دانش‌آموز" loading="lazy" width="480" height="984"></div>
+        <div class="phone p-center"><img src="/assets/shots/parent.jpg" alt="صفحه اصلی ولی" loading="lazy" width="480" height="984"></div>
+        <div class="phone p-right"><img src="/assets/shots/student-exams.jpg" alt="آزمون‌های دانش‌آموز" loading="lazy" width="480" height="984"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- همه بخش‌ها -->
+  <section id="modules" class="section">
     <div class="container">
-      <h2 class="section-title">برای هر نقش، نمای مخصوص خودش</h2>
+      <div class="head center">
+        <p class="eyebrow">همه بخش‌ها</p>
+        <h2>یک سامانه، به جای چند نرم‌افزار</h2>
+        <p class="sub">هر بخش جداگانه فعال یا غیرفعال می‌شود و هر نقش فقط چیزی را می‌بیند که به آن نیاز دارد.</p>
+      </div>
+      <div class="modules">
+        <div class="module"><svg class="ic"><use href="#i-attendance"/></svg><b>حضور و غیاب</b><span>روزانه یا زنگ‌به‌زنگ</span></div>
+        <div class="module"><svg class="ic"><use href="#i-scan"/></svg><b>دستگاه حضور</b><span>اثر انگشت، چهره و کارت</span></div>
+        <div class="module"><svg class="ic"><use href="#i-book"/></svg><b>دفتر کلاسی</b><span>موضوع تدریس و جانشین</span></div>
+        <div class="module"><svg class="ic"><use href="#i-chart"/></svg><b>نمره و کارنامه</b><span>ارزشیابی وزنی و رتبه</span></div>
+        <div class="module"><svg class="ic"><use href="#i-exam"/></svg><b>آزمون آنلاین</b><span>تصحیح خودکار و ضدتقلب</span></div>
+        <div class="module"><svg class="ic"><use href="#i-pen"/></svg><b>تکالیف</b><span>ارسال پاسخ و بازخورد</span></div>
+        <div class="module"><svg class="ic"><use href="#i-grid"/></svg><b>برنامه هفتگی</b><span>چیدن خودکار و دستی</span></div>
+        <div class="module"><svg class="ic"><use href="#i-seats"/></svg><b>امتحانات نوبت</b><span>برنامه، صندلی و کارت ورود</span></div>
+        <div class="module"><svg class="ic"><use href="#i-video"/></svg><b>کلاس آنلاین</b><span>BigBlueButton و ضبط جلسات</span></div>
+        <div class="module"><svg class="ic"><use href="#i-wallet"/></svg><b>شهریه</b><span>قسط، تخفیف و پرداخت آنلاین</span></div>
+        <div class="module"><svg class="ic"><use href="#i-file"/></svg><b>حقوق کارکنان</b><span>فیش حقوقی و پرداخت</span></div>
+        <div class="module"><svg class="ic"><use href="#i-clock"/></svg><b>تردد کارکنان</b><span>ساعت کاری و مرخصی</span></div>
+        <div class="module"><svg class="ic"><use href="#i-user-plus"/></svg><b>پیش‌ثبت‌نام</b><span>فرم آنلاین و امتیازدهی</span></div>
+        <div class="module"><svg class="ic"><use href="#i-users"/></svg><b>پرونده دانش‌آموز</b><span>اطلاعات کامل و ورود از اکسل</span></div>
+        <div class="module"><svg class="ic"><use href="#i-bell"/></svg><b>اطلاعیه و پیامک</b><span>هدف‌گیری نقش و کلاس</span></div>
+        <div class="module"><svg class="ic"><use href="#i-list"/></svg><b>فرم و رضایت‌نامه</b><span>اردو، نظرسنجی و هزینه</span></div>
+        <div class="module"><svg class="ic"><use href="#i-star"/></svg><b>انضباط و رفتار</b><span>موارد تشویقی و انضباطی</span></div>
+        <div class="module"><svg class="ic"><use href="#i-library"/></svg><b>کتابخانه</b><span>امانت، تمدید و دیرکرد</span></div>
+        <div class="module"><svg class="ic"><use href="#i-message"/></svg><b>دبیرخانه</b><span>گواهی و نامه با کد استعلام</span></div>
+        <div class="module"><svg class="ic"><use href="#i-globe"/></svg><b>وب‌سایت مدرسه</b><span>اخبار، گالری و معرفی کادر</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- نقش‌ها -->
+  <section class="section section-tint">
+    <div class="container">
+      <div class="head center">
+        <p class="eyebrow">برای هر نقش</p>
+        <h2>هر کس، دقیقا همان چیزی که لازم دارد</h2>
+      </div>
       <div class="roles">
-        <figure class="role">
-          <a href="/assets/shots/teacher.jpg" target="_blank" rel="noopener"><img src="/assets/shots/teacher.jpg" alt="داشبورد معلم" loading="lazy" width="1440" height="900"></a>
-          <figcaption><b>معلم</b> برنامه امروز، حضور و غیاب، دفتر نمره، تکالیف و آزمون‌های در انتظار تصحیح.</figcaption>
-        </figure>
-        <figure class="role">
-          <a href="/assets/shots/timetable.jpg" target="_blank" rel="noopener"><img src="/assets/shots/timetable.jpg" alt="برنامه‌ریز هفتگی" loading="lazy" width="1440" height="900"></a>
-          <figcaption><b>معاون آموزشی</b> برنامه هفتگی، امتحانات نوبت، دفتر کلاسی و گزارش‌ها.</figcaption>
-        </figure>
-        <figure class="role role-phone">
-          <a href="/assets/shots/student.jpg" target="_blank" rel="noopener"><img src="/assets/shots/student.jpg" alt="نمای دانش‌آموز روی موبایل" loading="lazy" width="420" height="860"></a>
-          <figcaption><b>دانش‌آموز</b> برنامه، تکالیف، آزمون آنلاین و کارنامه.</figcaption>
-        </figure>
+        <div class="role">
+          <h3>مدیر مدرسه</h3>
+          <ul><li>تصویر کامل مدرسه در داشبورد</li><li>گزارش تحصیلی، انضباطی و مالی</li><li>تعریف نقش و سطح دسترسی</li></ul>
+        </div>
+        <div class="role">
+          <h3>معاون آموزشی</h3>
+          <ul><li>برنامه هفتگی و امتحانات نوبت</li><li>پیگیری دفتر کلاسی و جانشین</li><li>حضور و غیاب و انضباط</li></ul>
+        </div>
+        <div class="role">
+          <h3>معلم</h3>
+          <ul><li>برنامه امروز و دفتر کلاسی</li><li>دفتر نمره، تکلیف و آزمون</li><li>حضور و غیاب زنگ‌های خودش</li></ul>
+        </div>
+        <div class="role">
+          <h3>حسابدار</h3>
+          <ul><li>صدور صورتحساب و قسط</li><li>ثبت پرداخت و رسید</li><li>حقوق و فیش کارکنان</li></ul>
+        </div>
+        <div class="role">
+          <h3>ولی</h3>
+          <ul><li>نمره، غیبت و کارنامه فرزند</li><li>پرداخت شهریه آنلاین</li><li>اطلاعیه‌ها و رضایت‌نامه‌ها</li></ul>
+        </div>
+        <div class="role">
+          <h3>دانش‌آموز</h3>
+          <ul><li>برنامه روز و تکالیف</li><li>آزمون آنلاین و نتیجه</li><li>کارنامه و وضعیت تحصیلی</li></ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="demo" class="section">
+  <!-- ---------------------------------------------------------------- اعتماد -->
+  <section id="trust" class="section dark">
     <div class="container">
-      <h2 class="section-title">دمو چطور کار می‌کند؟</h2>
-      <ol class="steps">
-        <li><b>درخواست</b><span>فرم پایین صفحه را پر کنید.</span></li>
-        <li><b>بررسی</b><span>همکاران ما درخواست را بررسی می‌کنند و با شما تماس می‌گیرند.</span></li>
-        <li><b>نام کاربری و رمز</b><span>چهار حساب مدیر، معلم، ولی و دانش‌آموز با یک رمز در اختیار شما قرار می‌گیرد.</span></li>
-        <li><b>یک هفته آزمایش</b><span>یک کلاس اختصاصی با دانش‌آموزان و سابقه کامل دارید و هر کاری خواستید امتحان کنید.</span></li>
-      </ol>
-      <p class="note">همه نام‌ها و اطلاعات مدرسه نمونه ساختگی است و هر شب به حالت اول برمی‌گردد.</p>
-    </div>
-  </section>
-
-  <section id="request" class="section section-alt">
-    <div class="container request">
-      <div class="request-text">
-        <h2 class="section-title">درخواست دسترسی دمو</h2>
-        <p>اطلاعات زیر را وارد کنید. پس از بررسی، نام کاربری و رمز ورود به نسخه نمایشی برایتان فرستاده می‌شود.</p>
-        <ul class="checks">
-          <li>بدون نصب و هزینه</li>
-          <li>دسترسی یک‌هفته‌ای (قابل تمدید)</li>
-          <li>هر چهار نقش با یک رمز</li>
-        </ul>
+      <div class="head center">
+        <p class="eyebrow light">امنیت و زیرساخت</p>
+        <h2>اطلاعات مدرسه، فقط در اختیار مدرسه</h2>
+        <p class="sub">رسا روی سرور خود مدرسه یا سروری که شما انتخاب می‌کنید نصب می‌شود. اطلاعات دانش‌آموزان و اولیا از اختیار شما خارج نمی‌شود.</p>
       </div>
-      <form id="request-form" class="form" novalidate>
-        <div class="field">
-          <label for="f-name">نام و نام خانوادگی</label>
-          <input id="f-name" name="name" required maxlength="80" autocomplete="name">
+      <div class="trust">
+        <div class="trust-item"><svg class="ic"><use href="#i-server"/></svg><h3>نصب روی سرور مدرسه</h3><p>داخل شبکه مدرسه کار می‌کند و در صورت نیاز از اینترنت هم در دسترس اولیاست.</p></div>
+        <div class="trust-item"><svg class="ic"><use href="#i-database"/></svg><h3>پشتیبان‌گیری خودکار</h3><p>پشتیبان روزانه از اطلاعات و فایل‌ها، با امکان بازگردانی.</p></div>
+        <div class="trust-item"><svg class="ic"><use href="#i-refresh"/></svg><h3>به‌روزرسانی امن</h3><p>نسخه جدید با یک دستور نصب می‌شود و اگر مشکلی پیش بیاید، خودکار به نسخه قبل برمی‌گردد.</p></div>
+        <div class="trust-item"><svg class="ic"><use href="#i-lock"/></svg><h3>دسترسی دقیق</h3><p>هر نقش فقط به بخش‌های لازم دسترسی دارد و نقش‌های سفارشی هم تعریف می‌شود.</p></div>
+        <div class="trust-item"><svg class="ic"><use href="#i-shield"/></svg><h3>ثبت همه فعالیت‌ها</h3><p>هر تغییر مهم با نام کاربر و زمان آن ثبت می‌شود.</p></div>
+        <div class="trust-item stat">
+          <b>۵۰۰</b>
+          <h3>دانش‌آموز هم‌زمان در آزمون</h3>
+          <p>آزموده‌شده روی سروری با ۲ هسته پردازنده و ۲ گیگابایت حافظه.</p>
         </div>
-        <div class="field">
-          <label for="f-school">نام مدرسه یا مجموعه</label>
-          <input id="f-school" name="school" required maxlength="120">
-        </div>
-        <div class="row">
-          <div class="field">
-            <label for="f-role">سمت</label>
-            <select id="f-role" name="role">
-              <option>مدیر</option>
-              <option>معاون</option>
-              <option>معلم</option>
-              <option>کارشناس فناوری</option>
-              <option>موسس یا هیئت مدیره</option>
-              <option>سایر</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-mobile">شماره موبایل</label>
-            <input id="f-mobile" name="mobile" required inputmode="tel" dir="ltr" placeholder="0912 123 4567" autocomplete="tel">
-          </div>
-        </div>
-        <div class="row">
-          <div class="field">
-            <label for="f-city">شهر</label>
-            <input id="f-city" name="city" maxlength="60">
-          </div>
-          <div class="field">
-            <label for="f-students">تعداد دانش‌آموز (تقریبی)</label>
-            <input id="f-students" name="students" inputmode="numeric" maxlength="20">
-          </div>
-        </div>
-        <div class="field">
-          <label for="f-message">توضیحات (اختیاری)</label>
-          <textarea id="f-message" name="message" rows="3" maxlength="1000" placeholder="مثلا بیشتر کدام بخش‌ها برایتان مهم است"></textarea>
-        </div>
-        <div class="hp" aria-hidden="true">
-          <label for="f-website">وب‌سایت</label>
-          <input id="f-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-        <p class="form-error" id="form-error" role="alert"></p>
-        <button class="btn btn-primary btn-block" type="submit">ثبت درخواست</button>
-      </form>
-      <div id="form-done" class="done" hidden>
-        <h3>درخواست شما ثبت شد</h3>
-        <p>به‌زودی با شما تماس می‌گیریم و اطلاعات ورود به نسخه نمایشی را در اختیارتان می‌گذاریم.</p>
       </div>
     </div>
   </section>
 
-  <section id="faq" class="section">
+  <!-- ---------------------------------------------------------------- دمو -->
+  <section id="request" class="section">
+    <div class="container">
+      <div class="request">
+        <div class="request-text">
+          <p class="eyebrow">دمو رایگان</p>
+          <h2>رسا را در یک مدرسه واقعی امتحان کنید</h2>
+          <p>یک مدرسه نمونه با سابقه کامل یک سال تحصیلی آماده است. پس از بررسی درخواست، یک کلاس اختصاصی و چهار حساب کاربری در اختیارتان قرار می‌گیرد تا رسا را از نگاه هر نقش ببینید.</p>
+          <ol class="steps">
+            <li><b>ثبت درخواست</b><span>فرم را پر کنید؛ کمتر از یک دقیقه.</span></li>
+            <li><b>تماس و هماهنگی</b><span>همکاران ما با شما تماس می‌گیرند.</span></li>
+            <li><b>دریافت نام کاربری و رمز</b><span>حساب مدیر، معلم، ولی و دانش‌آموز با یک رمز.</span></li>
+            <li><b>یک هفته آزمایش</b><span>هر کاری خواستید امتحان کنید؛ قابل تمدید.</span></li>
+          </ol>
+        </div>
+        <div class="form-card">
+          <form id="request-form" novalidate>
+            <h3>درخواست دسترسی دمو</h3>
+            <div class="field">
+              <label for="f-name">نام و نام خانوادگی</label>
+              <input id="f-name" name="name" required maxlength="80" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-school">نام مدرسه یا مجموعه</label>
+              <input id="f-school" name="school" required maxlength="120">
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-role">سمت</label>
+                <select id="f-role" name="role">
+                  <option>مدیر</option>
+                  <option>معاون</option>
+                  <option>معلم</option>
+                  <option>کارشناس فناوری</option>
+                  <option>مؤسس یا هیئت مدیره</option>
+                  <option>سایر</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-mobile">شماره موبایل</label>
+                <input id="f-mobile" name="mobile" required inputmode="tel" dir="ltr" placeholder="0912 123 4567" autocomplete="tel">
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-city">شهر</label>
+                <input id="f-city" name="city" maxlength="60">
+              </div>
+              <div class="field">
+                <label for="f-students">تعداد دانش‌آموز</label>
+                <select id="f-students" name="students">
+                  <option value="">انتخاب کنید</option>
+                  <option>کمتر از ۲۰۰</option>
+                  <option>۲۰۰ تا ۵۰۰</option>
+                  <option>۵۰۰ تا ۱۰۰۰</option>
+                  <option>بیش از ۱۰۰۰</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-message">بیشتر کدام بخش‌ها برایتان مهم است؟ <small>(اختیاری)</small></label>
+              <textarea id="f-message" name="message" rows="3" maxlength="1000"></textarea>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="f-website">وب‌سایت</label>
+              <input id="f-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="form-error" id="form-error" role="alert"></p>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">ثبت درخواست دمو</button>
+            <p class="form-note">اطلاعات شما فقط برای هماهنگی دمو استفاده می‌شود.</p>
+          </form>
+          <div id="form-done" class="done" hidden>
+            <span class="done-icon"><svg class="ic"><use href="#i-check"/></svg></span>
+            <h3>درخواست شما ثبت شد</h3>
+            <p>به‌زودی با شما تماس می‌گیریم و اطلاعات ورود به نسخه نمایشی را در اختیارتان می‌گذاریم.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- پرسش‌ها -->
+  <section id="faq" class="section section-tint">
     <div class="container faq">
-      <h2 class="section-title">پرسش‌های رایج</h2>
+      <div class="head center">
+        <p class="eyebrow">پرسش‌های رایج</p>
+        <h2>پیش از شروع، شاید بپرسید</h2>
+      </div>
       <details>
-        <summary>سامانه کجا نصب می‌شود؟</summary>
-        <p>روی سرور خود مدرسه یا سروری که مدرسه انتخاب می‌کند. اطلاعات دانش‌آموزان نزد خود مدرسه می‌ماند و پشتیبان‌گیری خودکار روزانه انجام می‌شود.</p>
+        <summary>رسا کجا نصب می‌شود؟</summary>
+        <p>روی سرور خود مدرسه یا سروری که مدرسه انتخاب می‌کند. اطلاعات دانش‌آموزان و اولیا نزد خود مدرسه می‌ماند و هر روز خودکار از آن پشتیبان گرفته می‌شود.</p>
       </details>
       <details>
-        <summary>آیا به اینترنت دائمی نیاز دارد؟</summary>
-        <p>داخل شبکه مدرسه کار می‌کند. برای دسترسی اولیا و دانش‌آموزان از خانه، پرداخت آنلاین و پیامک، سرور باید از اینترنت در دسترس باشد.</p>
-      </details>
-      <details>
-        <summary>اطلاعات دمو واقعی است؟</summary>
-        <p>خیر. مدرسه نمونه، دانش‌آموزان، نمره‌ها و پرداخت‌ها همه ساختگی‌اند. در دمو هیچ پرداخت واقعی انجام نمی‌شود و پیامکی هم ارسال نمی‌شود.</p>
-      </details>
-      <details>
-        <summary>تغییراتی که در دمو می‌دهم می‌ماند؟</summary>
-        <p>تا پایان همان روز بله. هر شب داده‌های دمو از نو ساخته می‌شود و نام کاربری و رمز شما تا پایان مهلت دسترسی معتبر می‌ماند.</p>
+        <summary>به اینترنت دائمی نیاز دارد؟</summary>
+        <p>داخل شبکه مدرسه بدون اینترنت هم کار می‌کند. برای دسترسی اولیا و دانش‌آموزان از خانه، پرداخت آنلاین و پیامک، سرور باید از اینترنت در دسترس باشد.</p>
       </details>
       <details>
         <summary>اطلاعات فعلی مدرسه را می‌شود منتقل کرد؟</summary>
-        <p>بله؛ دانش‌آموزان با اطلاعات اولیا، و کارکنان از فایل اکسل وارد می‌شوند.</p>
+        <p>بله. دانش‌آموزان همراه با اطلاعات اولیا، و کارکنان از فایل اکسل وارد می‌شوند و حساب کاربری اولیا خودکار ساخته می‌شود.</p>
       </details>
+      <details>
+        <summary>برای مدرسه ما کدام بخش‌ها فعال می‌شود؟</summary>
+        <p>هر بخش جداگانه فعال یا غیرفعال می‌شود. می‌توانید با حضور و غیاب و دفتر نمره شروع کنید و بقیه بخش‌ها را هر وقت آماده بودید فعال کنید.</p>
+      </details>
+      <details>
+        <summary>اطلاعات دمو واقعی است؟</summary>
+        <p>خیر. مدرسه نمونه، دانش‌آموزان، نمره‌ها و پرداخت‌ها همه ساختگی‌اند. در دمو پرداخت واقعی انجام نمی‌شود و پیامکی هم ارسال نمی‌شود.</p>
+      </details>
+      <details>
+        <summary>تغییراتی که در دمو می‌دهم می‌ماند؟</summary>
+        <p>تا پایان همان روز بله. داده‌های دمو هر شب از نو ساخته می‌شود و نام کاربری و رمز شما تا پایان مهلت دسترسی معتبر می‌ماند.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta-inner">
+      <h2>آماده‌اید رسا را از نزدیک ببینید؟</h2>
+      <a class="btn btn-light btn-lg" href="#request">درخواست دمو رایگان</a>
     </div>
   </section>
 </main>
 
 <footer class="footer">
   <div class="container footer-inner">
-    <span>سامانه رسا</span>
-    <span>سامانه جامع مدیریت مدرسه</span>
+    <a class="brand" href="#top">
+      <img src="/assets/logo.svg" alt="" width="32" height="32">
+      <span>سامانه رسا</span>
+    </a>
+    <nav aria-label="پیوندهای پایین صفحه">
+      <a href="#tour">امکانات</a>
+      <a href="#modules">همه بخش‌ها</a>
+      <a href="#trust">امنیت و نصب</a>
+      <a href="#request">درخواست دمو</a>
+    </nav>
+    <p>سامانه یکپارچه مدیریت مدرسه</p>
   </div>
 </footer>
 

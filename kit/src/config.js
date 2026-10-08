@@ -27,6 +27,8 @@ export function loadConfig() {
     studentsPerClass: Number(env.STUDENTS_PER_CLASS ?? 30),
     leadStudents: Number(env.LEAD_STUDENTS ?? 12),
     leadDays: Number(env.LEAD_DAYS ?? 7),
+    /** نسخه اپ؛ با تغییر آن، کیت پس از راه‌اندازی دوباره مدرسه نمونه را از نو می‌سازد */
+    appVersion: env.APP_VERSION || null,
     zarinpalMerchant: env.ZARINPAL_SANDBOX_MERCHANT || null,
     dataDir: path.resolve(env.DATA_DIR ?? './data'),
     maintenanceFile: env.MAINTENANCE_FILE || null,

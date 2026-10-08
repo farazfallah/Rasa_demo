@@ -398,3 +398,26 @@ export async function forms(ctx, cls) {
     return null;
   }
 }
+
+// ---------------------------------------------------------------- امتحانات نوبت
+
+/** برنامه امتحانات نوبت اول (چیدمان خودکار)، سالن‌ها و چیدمان صندلی‌ها */
+export async function termExams(ctx, classes) {
+  const plan = classes[0].plan;
+  const term = plan.terms[0];
+  const written = ['ریاضی', 'علوم تجربی', 'ادبیات فارسی', 'نگارش', 'عربی', 'زبان انگلیسی', 'قرآن', 'پیام‌های آسمان', 'مطالعات اجتماعی'];
+  const ccIds = classes.flatMap((c) => c.courses.filter((cc) => written.includes(cc.course.title)).map((cc) => cc.ccId));
+  const { id } = await ctx.admin.post('/exam-schedules', { title: `امتحانات ${term.title}`, termId: term.id, startDate: term.finalsFrom, endDate: term.finalsTo });
+  const { items } = await ctx.admin.post(`/exam-schedules/${id}/auto`, { classCourseIds: ccIds, startTime: '08:00', durationMin: 90, gapDays: 0, skipWeekdays: [5, 6] });
+  await ctx.admin.put(`/exam-schedules/${id}/items`, { items });
+  await ctx.admin.put(`/exam-schedules/${id}/rooms`, {
+    rooms: [
+      { name: 'سالن اجتماعات', rows: 12, cols: 10 },
+      { name: 'سالن ورزشی', rows: 14, cols: 10 },
+      { name: 'کتابخانه', rows: 6, cols: 8 },
+    ],
+  });
+  await ctx.admin.post(`/exam-schedules/${id}/seating`, { spaced: false });
+  await ctx.admin.post(`/exam-schedules/${id}/publish`, { published: true });
+  return items.length;
+}

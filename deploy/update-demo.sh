@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# به‌روزرسانی اپ نسخه نمایشی به نسخه جدید رسا
+#   ./update-demo.sh                  آخرین نسخه منتشرشده در GitHub (اگر جدیدتر باشد)
+#   ./update-demo.sh 1.5.0            نسخه مشخص
+#   ./update-demo.sh --file school-app-1.5.0.tar.gz   از فایل بسته انتشار (بدون اینترنت)
+#
+# مراحل: دریافت بسته و بررسی sha256 ← docker load ← تنظیم APP_VERSION در .env ← docker compose up
+# کیت دمو با دیدن نسخه جدید، مدرسه نمونه و حساب متقاضیان فعال را روی نسخه جدید از نو می‌سازد.
+#
+# به‌روزرسانی خودکار هر شب (قبل از بازسازی ۳:۳۰)، با crontab -e:
+#   0 3 * * * /path/to/rasa-demo/deploy/update-demo.sh >> /var/log/rasa-demo-update.log 2>&1
+set -Eeuo pipefail
+DIR=$(cd "$(dirname "$0")" && pwd)
+ENV_FILE="$DIR/.env"
+RELEASES="$DIR/releases"
+die() { echo "[update] خطا: $*" >&2; exit 1; }
+log() { echo "[update $(date '+%F %T')] $*"; }
+[ -f "$ENV_FILE" ] || die ".env یافت نشد"
+
+env_get() { grep -E "^$1=" "$ENV_FILE" | tail -1 | cut -d= -f2- | tr -d '"' || true; }
+env_set() {
+  if grep -qE "^$1=" "$ENV_FILE"; then sed -i "s|^$1=.*|$1=$2|" "$ENV_FILE"; else printf '%s=%s\n' "$1" "$2" >> "$ENV_FILE"; fi
+}
+
+REPO=$(env_get APP_REPO); REPO=${REPO:-farazfallah/school_app}
+RELEASE_BASE=$(env_get APP_RELEASE_BASE); RELEASE_BASE=${RELEASE_BASE:-https://github.com}
+API_BASE=$(env_get APP_API_BASE); API_BASE=${API_BASE:-https://api.github.com}
+CURRENT=$(env_get APP_VERSION)
+
+# فقط یک به‌روزرسانی هم‌زمان
+exec 9>"$DIR/.update.lock"
+flock -n 9 || die "به‌روزرسانی دیگری در حال اجراست"
+
+FILE=""; VERSION=""
+case "${1:-}" in
+  --file) FILE=${2:?مسیر فایل را بدهید}; VERSION=$(basename "$FILE" | sed -n 's/^school-app-\(.*\)\.tar\.gz$/\1/p'); [ -n "$VERSION" ] || die "نام فایل باید school-app-X.Y.Z.tar.gz باشد" ;;
+  "" | latest)
+    VERSION=$(curl -fsSL --max-time 20 "$API_BASE/repos/$REPO/releases/latest" | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)
+    [ -n "$VERSION" ] || die "آخرین نسخه از GitHub دریافت نشد" ;;
+  *) VERSION=${1#v} ;;
+esac
+[[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.]+)?$ ]] || die "نسخه نامعتبر: $VERSION"
+
+if [ "$VERSION" = "$CURRENT" ] && [ -z "$FILE" ]; then
+  log "نسخه $VERSION از قبل نصب است"
+  exit 0
+fi
+
+if ! docker image inspect "madreseh-api:$VERSION" >/dev/null 2>&1 || ! docker image inspect "madreseh-web:$VERSION" >/dev/null 2>&1; then
+  mkdir -p "$RELEASES"
+  if [ -z "$FILE" ]; then
+    FILE="$RELEASES/school-app-$VERSION.tar.gz"
+    log "دریافت نسخه $VERSION"
+    curl -fsSL --retry 3 -o "$FILE.part" "$RELEASE_BASE/$REPO/releases/download/v$VERSION/school-app-$VERSION.tar.gz"
+    curl -fsSL --retry 3 -o "$FILE.sha256" "$RELEASE_BASE/$REPO/releases/download/v$VERSION/school-app-$VERSION.tar.gz.sha256"
+    mv "$FILE.part" "$FILE"
+    (cd "$RELEASES" && sha256sum -c "$(basename "$FILE").sha256") || die "sha256 بسته نادرست است"
+  fi
+  TMP=$(mktemp -d)
+  trap 'rm -rf "$TMP"' EXIT
+  tar -xzf "$FILE" -C "$TMP"
+  log "بارگذاری ایمیج‌ها"
+  docker load -i "$TMP/school-app-$VERSION/images.tar"
+fi
+
+log "نسخه $CURRENT ← $VERSION"
+env_set APP_VERSION "$VERSION"
+FILES=(-f "$DIR/docker-compose.yml")
+[ -f "$DIR/docker-compose.override.yml" ] && FILES+=(-f "$DIR/docker-compose.override.yml")
+docker compose --project-directory "$DIR" "${FILES[@]}" --env-file "$ENV_FILE" up -d --build --remove-orphans
+
+# بسته‌های قدیمی (فقط دو نسخه آخر می‌ماند)
+ls -1t "$RELEASES"/school-app-*.tar.gz 2>/dev/null | tail -n +3 | while read -r old; do rm -f "$old" "$old.sha256"; done
+log "انجام شد؛ کیت دمو مدرسه نمونه را روی نسخه $VERSION از نو می‌سازد (چند دقیقه). وضعیت: پنل /panel"

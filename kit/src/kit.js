@@ -74,7 +74,7 @@ export class Kit {
       if (!skipReset) await resetAll(this.config);
       await waitForApi(this.config.apiBase);
       const result = await buildSchool(this.config);
-      this.data.build = { state: 'ok', startedAt: started, finishedAt: new Date().toISOString(), error: null, ...result };
+      this.data.build = { state: 'ok', startedAt: started, finishedAt: new Date().toISOString(), error: null, appVersion: this.config.appVersion, ...result };
       await this.store.save();
       // حساب متقاضیان فعال دوباره با همان نام کاربری و رمز ساخته می‌شود
       for (const lead of this.data.leads.filter((l) => l.status === 'active')) {

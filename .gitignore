@@ -2,3 +2,6 @@ node_modules/
 kit/data/
 deploy/.env
 deploy/data/
+releases/
+.update.lock
+deploy/docker-compose.override.yml

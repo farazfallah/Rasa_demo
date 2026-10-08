@@ -246,7 +246,10 @@ async function tick() {
 }
 
 // اولین اجرا: اگر مدرسه هنوز ساخته نشده یا ساخت قبلی ناتمام مانده
-if (process.env.BUILD_ON_START !== '0' && kit.data.build?.state !== 'ok') {
+// یا اگر نسخه اپ عوض شده (به‌روزرسانی): داده نمونه روی نسخه جدید از نو ساخته می‌شود
+const versionChanged = config.appVersion && kit.data.build?.state === 'ok' && kit.data.build.appVersion !== config.appVersion;
+if (versionChanged) log(`app version changed: ${kit.data.build.appVersion ?? '?'} → ${config.appVersion}`);
+if (process.env.BUILD_ON_START !== '0' && (kit.data.build?.state !== 'ok' || versionChanged)) {
   // بازسازی امروز انجام شده حساب می‌شود تا بلافاصله تکرار نشود
   lastResetDay = todayIn(config.timeZone);
   lastAttemptAt = Date.now();

@@ -1,5 +1,53 @@
-// ارسال فرم درخواست دمو به کیت (همان دامنه، مسیر /api/demo-requests)
+// سایت معرفی رسا: زبانه‌های امکانات، سربرگ، نمایش هنگام اسکرول و فرم درخواست دمو
 (() => {
+  // ---------- سربرگ هنگام اسکرول
+  const top = document.querySelector('.top');
+  const onScroll = () => top?.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ---------- زبانه‌های امکانات (با کلیدهای جهت)
+  const tabs = [...document.querySelectorAll('[role=tab]')];
+  const select = (tab, focus) => {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }
+    if (focus) tab.focus();
+    tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+  };
+  tabs.forEach((tab, i) => {
+    tab.tabIndex = i === 0 ? 0 : -1;
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      // راست‌به‌چپ: جهت چپ یعنی زبانه بعدی
+      const step = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0;
+      if (!step) return;
+      e.preventDefault();
+      select(tabs[(i + step + tabs.length) % tabs.length], true);
+    });
+  });
+
+  // ---------- نمایش تدریجی بخش‌ها
+  const targets = document.querySelectorAll('.head, .compare-col, .module, .role, .trust-item, .form-card, .steps li, .faq details, .band-text, .phones');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    targets.forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = `${(i % 5) * 60}ms`;
+      io.observe(el);
+    });
+  }
+
+  // ---------- فرم درخواست دمو (ارسال به کیت در مسیر /api/demo-requests)
   const form = document.getElementById('request-form');
   const error = document.getElementById('form-error');
   const done = document.getElementById('form-done');
@@ -31,6 +79,7 @@
     show(errors);
     if (Object.keys(errors).length) return;
     const button = form.querySelector('button[type=submit]');
+    const label = button.textContent;
     button.disabled = true;
     button.textContent = 'در حال ارسال…';
     try {
@@ -52,7 +101,7 @@
       error.textContent = 'ارتباط برقرار نشد؛ اتصال اینترنت را بررسی کنید و دوباره تلاش کنید';
     } finally {
       button.disabled = false;
-      button.textContent = 'ثبت درخواست';
+      button.textContent = label;
     }
   });
 })();
