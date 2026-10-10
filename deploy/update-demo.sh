@@ -26,6 +26,22 @@ REPO=$(env_get APP_REPO); REPO=${REPO:-farazfallah/school_app}
 RELEASE_BASE=$(env_get APP_RELEASE_BASE); RELEASE_BASE=${RELEASE_BASE:-https://github.com}
 API_BASE=$(env_get APP_API_BASE); API_BASE=${API_BASE:-https://api.github.com}
 CURRENT=$(env_get APP_VERSION)
+# مخزن خصوصی: توکن GitHub (Contents: read-only) در .env
+TOKEN=$(env_get GITHUB_TOKEN)
+AUTH=(); [ -n "$TOKEN" ] && AUTH=(-H "Authorization: Bearer $TOKEN")
+gh_api() { curl -fsSL --max-time 30 "${AUTH[@]}" -H "Accept: application/vnd.github+json" "$API_BASE$1"; }
+
+# دریافت یک فایل از انتشار؛ با توکن از API (لینک مستقیم برای مخزن خصوصی کار نمی‌کند)
+fetch_asset() { # version name dest
+  if [ -z "$TOKEN" ]; then
+    curl -fsSL --retry 3 -o "$3" "$RELEASE_BASE/$REPO/releases/download/v$1/$2"
+    return
+  fi
+  local id
+  id=$(gh_api "/repos/$REPO/releases/tags/v$1" | python3 -c 'import json,sys; n=sys.argv[1]; print(next((a["id"] for a in json.load(sys.stdin)["assets"] if a["name"]==n),""))' "$2")
+  [ -n "$id" ] || die "فایل $2 در انتشار v$1 پیدا نشد"
+  curl -fsSL --retry 3 -L "${AUTH[@]}" -H "Accept: application/octet-stream" -o "$3" "$API_BASE/repos/$REPO/releases/assets/$id"
+}
 
 # فقط یک به‌روزرسانی هم‌زمان
 exec 9>"$DIR/.update.lock"
@@ -35,8 +51,8 @@ FILE=""; VERSION=""
 case "${1:-}" in
   --file) FILE=${2:?مسیر فایل را بدهید}; VERSION=$(basename "$FILE" | sed -n 's/^school-app-\(.*\)\.tar\.gz$/\1/p'); [ -n "$VERSION" ] || die "نام فایل باید school-app-X.Y.Z.tar.gz باشد" ;;
   "" | latest)
-    VERSION=$(curl -fsSL --max-time 20 "$API_BASE/repos/$REPO/releases/latest" | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)
-    [ -n "$VERSION" ] || die "آخرین نسخه از GitHub دریافت نشد" ;;
+    VERSION=$(gh_api "/repos/$REPO/releases/latest" | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)
+    [ -n "$VERSION" ] || die "آخرین نسخه از GitHub دریافت نشد (مخزن خصوصی؟ GITHUB_TOKEN را در .env بگذارید)" ;;
   *) VERSION=${1#v} ;;
 esac
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.]+)?$ ]] || die "نسخه نامعتبر: $VERSION"
@@ -51,8 +67,8 @@ if ! docker image inspect "madreseh-api:$VERSION" >/dev/null 2>&1 || ! docker im
   if [ -z "$FILE" ]; then
     FILE="$RELEASES/school-app-$VERSION.tar.gz"
     log "دریافت نسخه $VERSION"
-    curl -fsSL --retry 3 -o "$FILE.part" "$RELEASE_BASE/$REPO/releases/download/v$VERSION/school-app-$VERSION.tar.gz"
-    curl -fsSL --retry 3 -o "$FILE.sha256" "$RELEASE_BASE/$REPO/releases/download/v$VERSION/school-app-$VERSION.tar.gz.sha256"
+    fetch_asset "$VERSION" "school-app-$VERSION.tar.gz" "$FILE.part"
+    fetch_asset "$VERSION" "school-app-$VERSION.tar.gz.sha256" "$FILE.sha256"
     mv "$FILE.part" "$FILE"
     (cd "$RELEASES" && sha256sum -c "$(basename "$FILE").sha256") || die "sha256 بسته نادرست است"
   fi

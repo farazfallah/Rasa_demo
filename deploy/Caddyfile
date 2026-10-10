@@ -1,7 +1,16 @@
 # دو دامنه: سایت معرفی (با فرم درخواست و پنل) و نسخه نمایشی اپ
-# گواهی HTTPS خودکار گرفته می‌شود؛ دامنه‌ها باید به IP همین سرور اشاره کنند.
+#
+# بدون CDN: گواهی HTTPS خودکار گرفته می‌شود؛ دامنه‌ها باید مستقیم به IP همین سرور اشاره کنند.
+# پشت CDN (مثلا ابر آروان): در .env بگذارید SITE_SCHEME=http:// تا Caddy فقط HTTP روی پورت ۸۰ سرو کند
+# و HTTPS را CDN بدهد؛ TRUSTED_PROXIES هم IP واقعی بازدیدکننده را از هدر CDN می‌خواند.
 
-{$SITE_DOMAIN} {
+{
+	servers {
+		trusted_proxies static {$TRUSTED_PROXIES:private_ranges}
+	}
+}
+
+{$SITE_SCHEME}{$SITE_DOMAIN} {
 	encode zstd gzip
 
 	# فرم درخواست دمو و پنل مدیریت درخواست‌ها
@@ -20,7 +29,7 @@
 	}
 }
 
-{$DEMO_DOMAIN} {
+{$SITE_SCHEME}{$DEMO_DOMAIN} {
 	encode zstd gzip
 
 	# هنگام بازسازی شبانه

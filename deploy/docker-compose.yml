@@ -43,8 +43,8 @@ services:
       WEB_ORIGIN: https://${DEMO_DOMAIN}
       PUBLIC_URL: https://${DEMO_DOMAIN}
       COOKIE_SECURE: "true"
-      # Caddy و nginx داخل web: دو پراکسی
-      TRUST_PROXY: "2"
+      # تعداد پراکسی جلوی API: Caddy و nginx داخل web (۲)؛ پشت CDN یکی بیشتر (۳)
+      TRUST_PROXY: ${TRUST_PROXY:-2}
       SCHOOL_TIMEZONE: Asia/Tehran
       API_WORKERS: ${API_WORKERS:-2}
     volumes:
@@ -63,6 +63,7 @@ services:
       context: ../kit
       args:
         API_IMAGE: madreseh-api:${APP_VERSION}
+        NPM_REGISTRY: ${NPM_REGISTRY:-https://registry.npmjs.org/}
     restart: unless-stopped
     depends_on:
       api:
@@ -97,6 +98,8 @@ services:
       SITE_DOMAIN: ${SITE_DOMAIN:?set SITE_DOMAIN}
       DEMO_DOMAIN: ${DEMO_DOMAIN:?set DEMO_DOMAIN}
       ACME_EMAIL: ${ACME_EMAIL:-}
+      SITE_SCHEME: ${SITE_SCHEME:-}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-private_ranges}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./maintenance.html:/srv/maintenance/index.html:ro

@@ -5,7 +5,9 @@ FROM ${API_IMAGE}
 USER root
 WORKDIR /kit
 COPY package.json package-lock.json* ./
-RUN npm install --omit=dev --no-audit --no-fund && npm cache clean --force
+# سرورهای داخل ایران: در صورت نیاز آینه npm (NPM_REGISTRY در .env)
+ARG NPM_REGISTRY=https://registry.npmjs.org/
+RUN npm install --omit=dev --no-audit --no-fund --registry="$NPM_REGISTRY" && npm cache clean --force
 COPY src ./src
 RUN mkdir -p /data /state && chown -R node:node /data /state
 USER node
