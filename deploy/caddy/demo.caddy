@@ -1,0 +1,30 @@
+# نسخه نمایشی اپ
+# zstd نه: برخی CDN ها (مثل آروان) آن را درست پاس نمی‌دهند و صفحه سفید می‌شود
+encode gzip
+
+# هنگام بازسازی شبانه
+@maintenance file {
+	root /state
+	try_files /maintenance
+}
+handle @maintenance {
+	root * /srv/maintenance
+	rewrite * /index.html
+	file_server {
+		status 503
+	}
+}
+
+# در نسخه نمایشی رمز و مشخصات حساب تغییر نمی‌کند (حساب‌ها مشترک نیستند ولی هر شب از نو ساخته می‌شوند)
+@blocked {
+	method PATCH
+	path /api/auth/password /api/auth/profile
+}
+handle @blocked {
+	header Content-Type "application/json; charset=utf-8"
+	respond `{"statusCode":403,"message":"این کار در نسخه نمایشی غیرفعال است"}` 403
+}
+
+handle {
+	reverse_proxy web:80
+}

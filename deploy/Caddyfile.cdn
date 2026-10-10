@@ -1,0 +1,36 @@
+# پشت CDN (مثلا ابر آروان): HTTPS بازدیدکننده را CDN می‌دهد.
+# CDN چه با HTTP (پورت ۸۰) و چه با HTTPS (پورت ۴۴۳) به سرور وصل شود جواب می‌گیرد؛
+# روی ۴۴۳ گواهی داخلی Caddy به کار می‌رود (CDN گواهی مبدأ را بررسی نمی‌کند).
+# TRUSTED_PROXIES: IP واقعی بازدیدکننده از هدر CDN خوانده می‌شود.
+
+{
+	auto_https disable_redirects
+	skip_install_trust
+	default_sni {$SITE_DOMAIN}
+	servers {
+		trusted_proxies static {$TRUSTED_PROXIES:0.0.0.0/0}
+	}
+}
+
+http://{$SITE_DOMAIN} {
+	import parts/site.caddy
+}
+
+https://{$SITE_DOMAIN} {
+	tls internal
+	import parts/site.caddy
+}
+
+http://{$DEMO_DOMAIN} {
+	import parts/demo.caddy
+}
+
+https://{$DEMO_DOMAIN} {
+	tls internal
+	import parts/demo.caddy
+}
+
+# دامنه ناشناخته: معمولا یعنی CDN هدر Host را درست نمی‌فرستد
+http:// {
+	respond "Unknown host: {host}" 421
+}

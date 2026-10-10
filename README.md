@@ -69,10 +69,10 @@ docker compose up -d --build
 
 ### پشت CDN (ابر آروان و مانند آن)
 
-HTTPS را CDN می‌دهد و سرور فقط HTTP روی پورت ۸۰ سرو می‌کند. در `.env`:
+HTTPS را CDN می‌دهد؛ سرور هم روی HTTP و هم روی HTTPS (گواهی داخلی) جواب می‌دهد. در `.env`:
 
 ```
-SITE_SCHEME=http://
+CADDYFILE=Caddyfile.cdn
 TRUSTED_PROXIES=0.0.0.0/0     # یا فقط بازه IP های CDN
 TRUST_PROXY=3
 ```

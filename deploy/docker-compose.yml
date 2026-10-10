@@ -98,10 +98,10 @@ services:
       SITE_DOMAIN: ${SITE_DOMAIN:?set SITE_DOMAIN}
       DEMO_DOMAIN: ${DEMO_DOMAIN:?set DEMO_DOMAIN}
       ACME_EMAIL: ${ACME_EMAIL:-}
-      SITE_SCHEME: ${SITE_SCHEME:-}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-private_ranges}
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./${CADDYFILE:-Caddyfile}:/etc/caddy/Caddyfile:ro
+      - ./caddy:/etc/caddy/parts:ro
       - ./maintenance.html:/srv/maintenance/index.html:ro
       - ../site:/srv/site:ro
       - state:/state:ro
