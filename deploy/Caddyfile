@@ -11,7 +11,8 @@
 }
 
 {$SITE_SCHEME}{$SITE_DOMAIN} {
-	encode zstd gzip
+	# zstd نه: برخی CDN ها (مثل آروان) آن را درست پاس نمی‌دهند و صفحه سفید می‌شود
+	encode gzip
 
 	# فرم درخواست دمو و پنل مدیریت درخواست‌ها
 	handle /api/demo-requests {
@@ -30,7 +31,8 @@
 }
 
 {$SITE_SCHEME}{$DEMO_DOMAIN} {
-	encode zstd gzip
+	# zstd نه: برخی CDN ها (مثل آروان) آن را درست پاس نمی‌دهند و صفحه سفید می‌شود
+	encode gzip
 
 	# هنگام بازسازی شبانه
 	@maintenance file {
