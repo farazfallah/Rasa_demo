@@ -3,6 +3,9 @@
 #   ./update-demo.sh                  آخرین نسخه منتشرشده در GitHub (اگر جدیدتر باشد)
 #   ./update-demo.sh 1.5.0            نسخه مشخص
 #   ./update-demo.sh --file school-app-1.5.0.tar.gz   از فایل بسته انتشار (بدون اینترنت)
+#   ./update-demo.sh --force ...      سرویس‌ها حتی اگر نسخه عوض نشده دوباره راه‌اندازی شوند
+#
+# نصب اول روی سرور خام: ./install.sh (همین اسکریپت را هم اجرا می‌کند)
 #
 # مراحل: دریافت بسته و بررسی sha256 ← docker load ← تنظیم APP_VERSION در .env ← docker compose up
 # کیت دمو با دیدن نسخه جدید، مدرسه نمونه و حساب متقاضیان فعال را روی نسخه جدید از نو می‌سازد.
@@ -17,6 +20,7 @@ die() { echo "[update] خطا: $*" >&2; exit 1; }
 log() { echo "[update $(date '+%F %T')] $*"; }
 [ -f "$ENV_FILE" ] || die ".env یافت نشد"
 
+sed -i 's/\r$//' "$ENV_FILE"
 env_get() { grep -E "^$1=" "$ENV_FILE" | tail -1 | cut -d= -f2- | tr -d '"' || true; }
 env_set() {
   if grep -qE "^$1=" "$ENV_FILE"; then sed -i "s|^$1=.*|$1=$2|" "$ENV_FILE"; else printf '%s=%s\n' "$1" "$2" >> "$ENV_FILE"; fi
@@ -49,11 +53,16 @@ fetch_asset() { # version name dest
 for k in SITE_DOMAIN DEMO_DOMAIN POSTGRES_PASSWORD JWT_ACCESS_SECRET JWT_REFRESH_SECRET DEMO_ROOT_PASSWORD PANEL_PASSWORD; do
   [ -n "$(env_get "$k")" ] || die "$k در .env خالی است"
 done
+for k in SITE_DOMAIN DEMO_DOMAIN; do
+  [[ "$(env_get "$k")" != *example.com ]] || die "$k هنوز مقدار نمونه است؛ ./install.sh را اجرا کنید"
+done
 
 # فقط یک به‌روزرسانی هم‌زمان
 exec 9>"$DIR/.update.lock"
 flock -n 9 || die "به‌روزرسانی دیگری در حال اجراست"
 
+FORCE=0
+[ "${1:-}" = --force ] && { FORCE=1; shift; }
 FILE=""; VERSION=""
 case "${1:-}" in
   --file) FILE=${2:?مسیر فایل را بدهید}; VERSION=$(basename "$FILE" | sed -n 's/^school-app-\(.*\)\.tar\.gz$/\1/p'); [ -n "$VERSION" ] || die "نام فایل باید school-app-X.Y.Z.tar.gz باشد" ;;
@@ -65,7 +74,7 @@ case "${1:-}" in
 esac
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.]+)?$ ]] || die "نسخه نامعتبر: $VERSION"
 
-if [ "$VERSION" = "$CURRENT" ] && [ -z "$FILE" ]; then
+if [ "$VERSION" = "$CURRENT" ] && [ -z "$FILE" ] && [ $FORCE = 0 ]; then
   log "نسخه $VERSION از قبل نصب است"
   exit 0
 fi

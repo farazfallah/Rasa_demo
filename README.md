@@ -6,7 +6,7 @@
 |---|---|
 | `site/` | سایت معرفی ایستا با فرم «درخواست دمو» |
 | `kit/` | سرویس کوچک دمو: ساخت مدرسه نمونه، بازسازی شبانه، پنل درخواست‌ها و ساخت حساب متقاضیان |
-| `deploy/` | docker-compose و Caddy برای اجرای همه‌چیز روی یک سرور (با HTTPS خودکار) |
+| `deploy/` | docker-compose، Caddy و اسکریپت‌های نصب، بررسی و به‌روزرسانی |
 
 ## روند دسترسی متقاضی
 
@@ -51,16 +51,13 @@
 
 ## نصب روی سرور
 
-پیش‌نیاز: سرور لینوکس با Docker، دو دامنه (مثلا `rasa.example.com` و `demo.rasa.example.com`) که به IP سرور اشاره کنند، و پورت‌های ۸۰ و ۴۴۳ باز.
+راهنمای کامل مرحله به مرحله از سرور خام: **[INSTALL.md](INSTALL.md)**. خلاصه:
 
 ```bash
-git clone <این مخزن> rasa-demo && cd rasa-demo/deploy
-
-# ایمیج‌های اپ از بسته انتشار (school-app-X.Y.Z.tar.gz)
-tar -xzf school-app-1.4.0.tar.gz && docker load -i school-app-1.4.0/images.tar
-
-cp .env.example .env    # دامنه‌ها، نسخه اپ و رمزها را تنظیم کنید
-docker compose up -d --build
+git clone https://github.com/farazfallah/Rasa_demo.git /opt/rasa-demo
+cd /opt/rasa-demo/deploy
+./install.sh      # Docker، دامنه‌ها، CDN، رمزها، توکن GitHub، دریافت اپ و راه‌اندازی
+./check.sh        # بررسی سرویس‌ها و پاسخ دامنه‌ها
 ```
 
 ساخت اولیه مدرسه نمونه چند دقیقه طول می‌کشد؛ وضعیت در پنل دیده می‌شود.

@@ -30,7 +30,7 @@ https://{$DEMO_DOMAIN} {
 	import parts/demo.caddy
 }
 
-# دامنه ناشناخته: معمولا یعنی CDN هدر Host را درست نمی‌فرستد
+# دامنه ناشناخته: دامنه‌های .env با دامنه درخواست یکی نیست، یا CDN هدر Host را درست نمی‌فرستد
 http:// {
-	respond "Unknown host: {host}" 421
+	respond "Unknown host: {host} (SITE_DOMAIN/DEMO_DOMAIN in deploy/.env do not match; run ./install.sh)" 421
 }
