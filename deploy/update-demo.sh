@@ -37,11 +37,18 @@ fetch_asset() { # version name dest
     curl -fsSL --retry 3 -o "$3" "$RELEASE_BASE/$REPO/releases/download/v$1/$2"
     return
   fi
-  local id
-  id=$(gh_api "/repos/$REPO/releases/tags/v$1" | python3 -c 'import json,sys; n=sys.argv[1]; print(next((a["id"] for a in json.load(sys.stdin)["assets"] if a["name"]==n),""))' "$2")
+  local rel id
+  rel=$(gh_api "/repos/$REPO/releases/tags/v$1") \
+    || die "انتشار v$1 در $REPO دیده نشد؛ GITHUB_TOKEN نامعتبر است یا به این مخزن دسترسی ندارد (Contents: Read-only روی $REPO)"
+  id=$(printf '%s' "$rel" | python3 -c 'import json,sys; n=sys.argv[1]; print(next((a["id"] for a in json.load(sys.stdin)["assets"] if a["name"]==n),""))' "$2")
   [ -n "$id" ] || die "فایل $2 در انتشار v$1 پیدا نشد"
   curl -fsSL --retry 3 -L "${AUTH[@]}" -H "Accept: application/octet-stream" -o "$3" "$API_BASE/repos/$REPO/releases/assets/$id"
 }
+
+# پیش از دریافت بسته، تنظیمات ضروری .env
+for k in SITE_DOMAIN DEMO_DOMAIN POSTGRES_PASSWORD JWT_ACCESS_SECRET JWT_REFRESH_SECRET DEMO_ROOT_PASSWORD PANEL_PASSWORD; do
+  [ -n "$(env_get "$k")" ] || die "$k در .env خالی است"
+done
 
 # فقط یک به‌روزرسانی هم‌زمان
 exec 9>"$DIR/.update.lock"
@@ -51,6 +58,7 @@ FILE=""; VERSION=""
 case "${1:-}" in
   --file) FILE=${2:?مسیر فایل را بدهید}; VERSION=$(basename "$FILE" | sed -n 's/^school-app-\(.*\)\.tar\.gz$/\1/p'); [ -n "$VERSION" ] || die "نام فایل باید school-app-X.Y.Z.tar.gz باشد" ;;
   "" | latest)
+    [ -n "$TOKEN" ] || log "GITHUB_TOKEN خالی است؛ برای مخزن خصوصی لازم است"
     VERSION=$(gh_api "/repos/$REPO/releases/latest" | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)
     [ -n "$VERSION" ] || die "آخرین نسخه از GitHub دریافت نشد (مخزن خصوصی؟ GITHUB_TOKEN را در .env بگذارید)" ;;
   *) VERSION=${1#v} ;;
