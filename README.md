@@ -107,10 +107,17 @@ TRUST_PROXY=3
 ### به‌روزرسانی اپ دمو
 
 ```bash
-cd rasa-demo/deploy
+cd /opt/rasa-demo/deploy
 ./update-demo.sh            # آخرین نسخه منتشرشده رسا در GitHub (اگر جدیدتر باشد)
 ./update-demo.sh 1.5.0      # نسخه مشخص
 ./update-demo.sh --file school-app-1.5.0.tar.gz   # از فایل بسته انتشار، بدون اینترنت
+```
+
+برای به‌روزرسانی خود این مخزن (سایت معرفی، کیت و تنظیمات Caddy):
+
+```bash
+git -C /opt/rasa-demo pull
+cd /opt/rasa-demo/deploy && ./update-demo.sh --force
 ```
 
 اسکریپت بسته انتشار را دریافت و sha256 را بررسی می‌کند، ایمیج‌ها را بارگذاری می‌کند، `APP_VERSION` را در `.env` تنظیم و سرویس‌ها را دوباره راه‌اندازی می‌کند. کیت دمو با دیدن نسخه جدید، مدرسه نمونه و حساب متقاضیان فعال را خودکار روی نسخه جدید از نو می‌سازد (چند دقیقه؛ صفحه «در حال به‌روزرسانی» نمایش داده می‌شود).
@@ -118,7 +125,7 @@ cd rasa-demo/deploy
 برای به‌روزرسانی خودکار، هر شب قبل از بازسازی ۳:۳۰ (با `crontab -e`):
 
 ```
-0 3 * * * /path/to/rasa-demo/deploy/update-demo.sh >> /var/log/rasa-demo-update.log 2>&1
+0 3 * * * /opt/rasa-demo/deploy/update-demo.sh >> /var/log/rasa-demo-update.log 2>&1
 ```
 
 ### ایمنی

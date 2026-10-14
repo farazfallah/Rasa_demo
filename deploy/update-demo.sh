@@ -101,6 +101,9 @@ env_set APP_VERSION "$VERSION"
 FILES=(-f "$DIR/docker-compose.yml")
 [ -f "$DIR/docker-compose.override.yml" ] && FILES+=(-f "$DIR/docker-compose.override.yml")
 docker compose --project-directory "$DIR" "${FILES[@]}" --env-file "$ENV_FILE" up -d --build --remove-orphans
+# تنظیمات Caddy (فایل‌های mount شده) با up بازخوانی نمی‌شوند
+docker compose --project-directory "$DIR" "${FILES[@]}" --env-file "$ENV_FILE" exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1 \
+  || docker compose --project-directory "$DIR" "${FILES[@]}" --env-file "$ENV_FILE" restart caddy >/dev/null
 
 # بسته‌های قدیمی (فقط دو نسخه آخر می‌ماند)
 ls -1t "$RELEASES"/school-app-*.tar.gz 2>/dev/null | tail -n +3 | while read -r old; do rm -f "$old" "$old.sha256"; done
