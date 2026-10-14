@@ -10,9 +10,34 @@ handle /panel* {
 	reverse_proxy kit:8090
 }
 
+# صفحه‌ها با نشانی بدون .html (مثلا /features/timetable)؛ نشانی‌های قدیمی و با / پایانی به نشانی اصلی می‌روند
 handle {
 	root * /srv/site
+	redir /index.html / 301
+	@html path_regexp html ^(/.+)\.html$
+	redir @html {re.html.1} 301
+	@slash path_regexp slash ^(/.+)/$
+	redir @slash {re.slash.1} 301
+	# پوشه منبع سایت (قالب‌ها و اسکریپت ساخت) منتشر نمی‌شود
+	respond /src/* 404
+	try_files {path} {path}.html
+	# دامنه سایت در canonical، sitemap و robots از درخواست پر می‌شود ({{.Host}})
+	templates {
+		mime text/html text/xml application/xml text/plain
+	}
 	header /assets/* Cache-Control "public, max-age=86400"
 	header /fonts/* Cache-Control "public, max-age=31536000, immutable"
+	header ?Cache-Control "public, max-age=600"
+	header X-Content-Type-Options nosniff
 	file_server
+}
+
+handle_errors {
+	@notfound expression {err.status_code} == 404
+	handle @notfound {
+		root * /srv/site
+		rewrite * /404.html
+		templates
+		file_server
+	}
 }

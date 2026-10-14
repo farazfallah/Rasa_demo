@@ -1,0 +1,79 @@
+  <section id="request" class="section">
+    <div class="container">
+      <div class="request">
+        <div class="request-text">
+          <p class="eyebrow">دمو رایگان</p>
+          <h2>رسا را در یک مدرسه واقعی امتحان کنید</h2>
+          <p>یک مدرسه نمونه با سابقه کامل یک سال تحصیلی آماده است. پس از بررسی درخواست، یک کلاس اختصاصی و چهار حساب کاربری در اختیارتان قرار می‌گیرد تا رسا را از نگاه هر نقش ببینید.</p>
+          <ol class="steps">
+            <li><b>ثبت درخواست</b><span>فرم را پر کنید؛ کمتر از یک دقیقه.</span></li>
+            <li><b>تماس و هماهنگی</b><span>همکاران ما با شما تماس می‌گیرند.</span></li>
+            <li><b>دریافت نام کاربری و رمز</b><span>حساب مدیر، معلم، ولی و دانش‌آموز با یک رمز.</span></li>
+            <li><b>یک هفته آزمایش</b><span>هر کاری خواستید امتحان کنید؛ قابل تمدید.</span></li>
+          </ol>
+        </div>
+        <div class="form-card">
+          <form id="request-form" novalidate>
+            <h3>درخواست دسترسی دمو</h3>
+            <div class="field">
+              <label for="f-name">نام و نام خانوادگی</label>
+              <input id="f-name" name="name" required maxlength="80" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-school">نام مدرسه یا مجموعه</label>
+              <input id="f-school" name="school" required maxlength="120">
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-role">سمت</label>
+                <select id="f-role" name="role">
+                  <option>مدیر</option>
+                  <option>معاون</option>
+                  <option>معلم</option>
+                  <option>کارشناس فناوری</option>
+                  <option>مؤسس یا هیئت مدیره</option>
+                  <option>سایر</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-mobile">شماره موبایل</label>
+                <input id="f-mobile" name="mobile" required inputmode="tel" dir="ltr" placeholder="0912 123 4567" autocomplete="tel">
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-city">شهر</label>
+                <input id="f-city" name="city" maxlength="60">
+              </div>
+              <div class="field">
+                <label for="f-students">تعداد دانش‌آموز</label>
+                <select id="f-students" name="students">
+                  <option value="">انتخاب کنید</option>
+                  <option>کمتر از ۲۰۰</option>
+                  <option>۲۰۰ تا ۵۰۰</option>
+                  <option>۵۰۰ تا ۱۰۰۰</option>
+                  <option>بیش از ۱۰۰۰</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-message">بیشتر کدام بخش‌ها برایتان مهم است؟ <small>(اختیاری)</small></label>
+              <textarea id="f-message" name="message" rows="3" maxlength="1000"></textarea>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="f-website">وب‌سایت</label>
+              <input id="f-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="form-error" id="form-error" role="alert"></p>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">ثبت درخواست دمو</button>
+            <p class="form-note">اطلاعات شما فقط برای هماهنگی دمو استفاده می‌شود.</p>
+          </form>
+          <div id="form-done" class="done" hidden>
+            <span class="done-icon"><svg class="ic"><use href="#i-check"/></svg></span>
+            <h3>درخواست شما ثبت شد</h3>
+            <p>به‌زودی با شما تماس می‌گیریم و اطلاعات ورود به نسخه نمایشی را در اختیارتان می‌گذاریم.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

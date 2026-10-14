@@ -31,8 +31,9 @@
   });
 
   // ---------- نمایش تدریجی بخش‌ها
-  const targets = document.querySelectorAll('.head, .compare-col, .module, .role, .trust-item, .form-card, .steps li, .faq details, .band-text, .phones');
-  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // فقط جلوه‌های تصویری صفحه اصلی؛ متن صفحه‌ها (پرسش‌ها، امکانات مرتبط) همیشه دیده می‌شود
+  const targets = document.querySelectorAll('.band-text, .phones');
+  if (targets.length && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
