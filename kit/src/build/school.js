@@ -20,6 +20,7 @@ export async function buildSchool(config) {
     rnd: createRandom(config.seed ?? 1405),
     concurrency: config.concurrency ?? 8,
     zarinpalMerchant: config.zarinpalMerchant,
+    online: config.onlineUrl && config.onlineSecret ? { url: config.onlineUrl, secret: config.onlineSecret } : null,
   };
   const step = async (name, fn) => {
     const t = Date.now();
@@ -37,6 +38,7 @@ export async function buildSchool(config) {
   await step('staff', () => setup.setupStaff(ctx));
   await step('classes', () => setup.setupClasses(ctx, config.studentsPerClass ?? 30));
   await step('timetable', () => setup.setupTimetable(ctx));
+  if (ctx.online) await step('online', () => setup.setupOnline(ctx));
 
   const cur = ctx.classes.filter((c) => c.plan.key === 'cur');
   const all = ctx.classes;

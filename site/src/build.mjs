@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { page, SITE } from './layout.mjs';
 import { FEATURES, featurePage, featuresHub } from './features.mjs';
 import { GUIDES, guidePage, guidesHub } from './guides.mjs';
-import { demoPage, faqPage, homePage, notFoundPage, securityPage } from './pages.mjs';
+import { demoPage, faqPage, homePage, manualPage, notFoundPage, securityPage } from './pages.mjs';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pages = [
@@ -18,6 +18,7 @@ const pages = [
   ...GUIDES.map(guidePage),
   faqPage(),
   securityPage(),
+  manualPage(),
   demoPage(),
   notFoundPage(),
 ];

@@ -20,12 +20,12 @@
 <meta name="twitter:description" content="همه امکانات سامانه رسا: حضور و غیاب، کارنامه رسمی، آزمون آنلاین، برنامه هفتگی خودکار، امتحانات نوبت، شهریه، پرتال اولیا، پیش‌ثبت‌نام و سایت مدرسه.">
 <meta name="twitter:image" content="https://{{.Host}}/assets/shots/dashboard.jpg">
 <link rel="preload" href="/fonts/Vazirmatn.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css?v=3">
+<link rel="stylesheet" href="/assets/site.css?v=4">
 <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"سامانه رسا","url":"https://{{.Host}}/","logo":"https://{{.Host}}/assets/logo.svg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"خانه","item":"https://{{.Host}}/"},{"@type":"ListItem","position":2,"name":"امکانات","item":"https://{{.Host}}/features"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"حضور و غیاب","url":"https://{{.Host}}/features/attendance"},{"@type":"ListItem","position":2,"name":"کارنامه و دفتر نمره","url":"https://{{.Host}}/features/report-card"},{"@type":"ListItem","position":3,"name":"آزمون آنلاین","url":"https://{{.Host}}/features/online-exam"},{"@type":"ListItem","position":4,"name":"برنامه هفتگی","url":"https://{{.Host}}/features/timetable"},{"@type":"ListItem","position":5,"name":"امتحانات نوبت","url":"https://{{.Host}}/features/term-exams"},{"@type":"ListItem","position":6,"name":"شهریه و حقوق","url":"https://{{.Host}}/features/finance"},{"@type":"ListItem","position":7,"name":"پرتال اولیا و دانش‌آموزان","url":"https://{{.Host}}/features/parents"},{"@type":"ListItem","position":8,"name":"پرونده دانش‌آموز و ورود از اکسل","url":"https://{{.Host}}/features/students"},{"@type":"ListItem","position":9,"name":"حضور کارکنان و معلمان","url":"https://{{.Host}}/features/staff"},{"@type":"ListItem","position":10,"name":"پیش‌ثبت‌نام آنلاین","url":"https://{{.Host}}/features/admission"},{"@type":"ListItem","position":11,"name":"سایت مدرسه","url":"https://{{.Host}}/features/website"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"حضور و غیاب","url":"https://{{.Host}}/features/attendance"},{"@type":"ListItem","position":2,"name":"کارنامه و دفتر نمره","url":"https://{{.Host}}/features/report-card"},{"@type":"ListItem","position":3,"name":"آزمون آنلاین","url":"https://{{.Host}}/features/online-exam"},{"@type":"ListItem","position":4,"name":"کلاس آنلاین","url":"https://{{.Host}}/features/online-class"},{"@type":"ListItem","position":5,"name":"برنامه هفتگی","url":"https://{{.Host}}/features/timetable"},{"@type":"ListItem","position":6,"name":"امتحانات نوبت","url":"https://{{.Host}}/features/term-exams"},{"@type":"ListItem","position":7,"name":"شهریه و حقوق","url":"https://{{.Host}}/features/finance"},{"@type":"ListItem","position":8,"name":"پرتال اولیا و دانش‌آموزان","url":"https://{{.Host}}/features/parents"},{"@type":"ListItem","position":9,"name":"پرونده دانش‌آموز و ورود از اکسل","url":"https://{{.Host}}/features/students"},{"@type":"ListItem","position":10,"name":"حضور کارکنان و معلمان","url":"https://{{.Host}}/features/staff"},{"@type":"ListItem","position":11,"name":"پیش‌ثبت‌نام آنلاین","url":"https://{{.Host}}/features/admission"},{"@type":"ListItem","position":12,"name":"سایت مدرسه","url":"https://{{.Host}}/features/website"}]}</script>
 </head>
 <body>
 <!-- آیکون‌ها (خطی، ۲۴×۲۴) -->
@@ -72,8 +72,10 @@
     </a>
     <nav class="nav" aria-label="منوی اصلی">
       <a href="/features" aria-current="page">امکانات</a>
+      <a href="/features/online-class">کلاس آنلاین</a>
       <a href="/features/timetable">برنامه هفتگی</a>
       <a href="/features/report-card">کارنامه</a>
+      <a href="/manual">راهنمای کامل</a>
       <a href="/guides">راهنماها</a>
       <a href="/faq">پرسش‌ها</a>
       <a href="/security">امنیت و نصب</a>
@@ -82,7 +84,7 @@
     <details class="menu">
       <summary aria-label="منو"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg></summary>
       <nav aria-label="منوی موبایل">
-        <a href="/features">امکانات</a><a href="/features/timetable">برنامه هفتگی</a><a href="/features/report-card">کارنامه</a><a href="/guides">راهنماها</a><a href="/faq">پرسش‌ها</a><a href="/security">امنیت و نصب</a>
+        <a href="/features">امکانات</a><a href="/features/online-class">کلاس آنلاین</a><a href="/features/timetable">برنامه هفتگی</a><a href="/features/report-card">کارنامه</a><a href="/manual">راهنمای کامل</a><a href="/guides">راهنماها</a><a href="/faq">پرسش‌ها</a><a href="/security">امنیت و نصب</a>
         <a href="/demo">درخواست دمو رایگان</a>
       </nav>
     </details>
@@ -117,6 +119,12 @@
       <svg class="ic" aria-hidden="true"><use href="#i-exam"/></svg>
       <h2>آزمون آنلاین</h2>
       <p>آزمون را با چند نوع سؤال طراحی کنید، برای کلاس زمان‌بندی کنید و نتیجه را بلافاصله ببینید. هر دانش‌آموز نسخه متفاوتی می‌گیرد و اگر اینترنتش قطع شود، پاسخ‌هایش از دست نمی‌رود.</p>
+      <span class="more">بیشتر بخوانید <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </a>
+<a class="feature-card" href="/features/online-class">
+      <svg class="ic" aria-hidden="true"><use href="#i-video"/></svg>
+      <h2>کلاس آنلاین</h2>
+      <p>کلاس آنلاین بخشی از خود رساست، نه یک برنامه جدا. معلم از برنامه امروزش با یک کلیک کلاس را شروع می‌کند، دانش‌آموزان از پرتال خودشان وارد می‌شوند و حضور و غیاب همان زنگ خودکار ثبت می‌شود. نه حساب کاربری تازه‌ای لازم است، نه نصب برنامه.</p>
       <span class="more">بیشتر بخوانید <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></span>
     </a>
 <a class="feature-card" href="/features/timetable">
@@ -172,7 +180,7 @@
   <section class="section section-tint">
     <div class="container">
       <div class="head center"><h2>و بخش‌های دیگر</h2><p class="sub">همه در همان سامانه و با همان حساب کاربری.</p></div>
-      <div class="modules"><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><b>دفتر کلاسی</b><span>موضوع تدریس، تکلیف و معلم جانشین</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><b>انضباط و رفتار</b><span>موارد تشویقی و انضباطی با اطلاع به ولی</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-pen"/></svg><b>تکالیف</b><span>ارسال پاسخ متنی یا عکس و بازخورد معلم</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-video"/></svg><b>کلاس آنلاین</b><span>BigBlueButton با ضبط جلسات</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><b>اطلاعیه و پیامک</b><span>برای همه، یک نقش یا یک کلاس</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg><b>فرم و رضایت‌نامه</b><span>اردو، نظرسنجی و پرداخت هزینه</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg><b>دبیرخانه</b><span>گواهی و نامه با شماره ثبت و کد استعلام</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-library"/></svg><b>کتابخانه</b><span>امانت، تمدید و دیرکرد</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><b>گزارش‌های مدیریتی</b><span>نفرات برتر، مقایسه با سال قبل و اکسل</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><b>نقش و دسترسی</b><span>نقش‌های سفارشی و ثبت فعالیت‌ها</span></div></div>
+      <div class="modules"><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><b>دفتر کلاسی</b><span>موضوع تدریس، تکلیف و معلم جانشین</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><b>انضباط و رفتار</b><span>موارد تشویقی و انضباطی با اطلاع به ولی</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-pen"/></svg><b>تکالیف</b><span>ارسال پاسخ متنی یا عکس و بازخورد معلم</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><b>اطلاعیه و پیامک</b><span>برای همه، یک نقش یا یک کلاس</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg><b>فرم و رضایت‌نامه</b><span>اردو، نظرسنجی و پرداخت هزینه</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg><b>دبیرخانه</b><span>گواهی و نامه با شماره ثبت و کد استعلام</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-library"/></svg><b>کتابخانه</b><span>قفسه با جلد کتاب، میز امانت و یادآوری دیرکرد</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><b>پایان سال تحصیلی</b><span>انتقال همه کلاس‌ها به سال بعد و فارغ‌التحصیلی با یک کلیک</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><b>گزارش‌های مدیریتی</b><span>نفرات برتر، مقایسه با سال قبل و اکسل</span></div><div class="module"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><b>نقش و دسترسی</b><span>نقش‌های سفارشی و ثبت فعالیت‌ها</span></div></div>
     </div>
   </section>
   <section class="cta">
@@ -193,12 +201,13 @@
         <img src="/assets/logo.svg" alt="" width="32" height="32">
         <span>سامانه رسا</span>
       </a>
-      <p>نرم‌افزار یکپارچه مدیریت مدرسه برای مدارس ابتدایی، متوسطه اول و دوم: حضور و غیاب، کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا؛ روی سرور خود مدرسه.</p>
+      <p>نرم‌افزار یکپارچه مدیریت مدرسه برای مدارس ابتدایی، متوسطه اول و دوم: حضور و غیاب، کارنامه، کلاس و آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا؛ روی سرور خود مدرسه.</p>
     </div>
     <nav aria-label="امکانات">
       <b>امکانات</b>
       <a href="/features/attendance">حضور و غیاب</a>
       <a href="/features/report-card">کارنامه و دفتر نمره</a>
+      <a href="/features/online-class">کلاس آنلاین</a>
       <a href="/features/online-exam">آزمون آنلاین</a>
       <a href="/features/timetable">برنامه هفتگی</a>
       <a href="/features/term-exams">امتحانات نوبت</a>
@@ -215,6 +224,7 @@
     </nav>
     <nav aria-label="راهنما">
       <b>راهنما و پشتیبانی</b>
+      <a href="/manual">راهنمای کامل سامانه (دانلود)</a>
       <a href="/guides">راهنماها</a>
       <a href="/faq">پرسش‌های رایج</a>
       <a href="/security">امنیت و نصب</a>

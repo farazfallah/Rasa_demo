@@ -1,14 +1,17 @@
 // سرور کیت دمو: دریافت درخواست از سایت معرفی، پنل مدیریت درخواست‌ها و زمان‌بندی بازسازی شبانه
 import http from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 import { timingSafeEqual } from 'node:crypto';
 import { loadConfig } from './config.js';
 import { Kit } from './kit.js';
+import { Docs, DOC_MAX_BYTES } from './docs.js';
 import { log, recentLog } from './lib/log.js';
 import { timeIn, todayIn } from './lib/jalali.js';
 
 const config = loadConfig();
 const kit = await new Kit(config).init();
+const docs = await new Docs(config.dataDir).init();
 const PANEL_HTML = new URL('./panel/index.html', import.meta.url);
 
 // ---------------------------------------------------------------- کمکی‌ها
@@ -22,6 +25,18 @@ function send(res, status, body, headers = {}) {
     ...headers,
   });
   res.end(isText ? body : JSON.stringify(body));
+}
+
+/** بدنه خام (فایل بارگذاری‌شده) */
+async function readRaw(req, limit) {
+  let size = 0;
+  const chunks = [];
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > limit) throw Object.assign(new Error(`حجم فایل بیش از ${Math.round(limit / 1048576)} مگابایت است`), { status: 413 });
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks);
 }
 
 async function readBody(req, limit = 20_000) {
@@ -149,8 +164,49 @@ function panelState() {
       ...l,
       accessText: l.status === 'active' || l.status === 'expired' ? accessText(l) : null,
     })),
+    docs: docs.list(),
     log: recentLog().slice(-80),
   };
+}
+
+// ---------------------------------------------------------------- فایل‌های راهنما
+
+/** دانلود عمومی یک فایل راهنما */
+async function serveDoc(req, res, id) {
+  const doc = docs.get(id);
+  if (!doc) return send(res, 404, { message: 'فایل پیدا نشد' });
+  const file = docs.filePath(doc);
+  const info = await stat(file);
+  const inline = doc.type === 'pdf' && new URL(req.url, 'http://kit').searchParams.get('view') === '1';
+  res.writeHead(200, {
+    'content-type': doc.type === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'content-length': info.size,
+    'content-disposition': `${inline ? 'inline' : 'attachment'}; filename="rasa-guide.${doc.type}"; filename*=UTF-8''${encodeURIComponent(doc.filename)}`,
+    'cache-control': 'public, max-age=600',
+    'x-content-type-options': 'nosniff',
+  });
+  if (req.method === 'HEAD') return res.end();
+  createReadStream(file).pipe(res);
+}
+
+async function handleDocsPanel(req, res, url) {
+  if (url.pathname === '/panel/api/docs') {
+    const title = clean(decodeURIComponent(String(req.headers['x-title'] ?? '')), 120);
+    const filename = clean(decodeURIComponent(String(req.headers['x-filename'] ?? '')), 120).replace(/[\\/:*?"|]/g, ' ');
+    if (!filename) return send(res, 400, { message: 'نام فایل مشخص نیست' });
+    const buffer = await readRaw(req, DOC_MAX_BYTES);
+    if (!buffer.length) return send(res, 400, { message: 'فایل خالی است' });
+    const doc = await docs.add({ title: title || filename.replace(/\.[^.]+$/, ''), filename, buffer });
+    log(`doc uploaded: ${doc.filename} (${doc.size} bytes)`);
+    return send(res, 201, { ok: true, doc });
+  }
+  const m = url.pathname.match(/^\/panel\/api\/docs\/([a-f0-9]+)\/(delete|up|down|rename)$/);
+  if (!m) return send(res, 404, { message: 'یافت نشد' });
+  const body = await readBody(req);
+  if (m[2] === 'delete') await docs.remove(m[1]);
+  else if (m[2] === 'rename') await docs.rename(m[1], clean(body.title, 120) || 'راهنما');
+  else await docs.move(m[1], m[2] === 'up' ? -1 : 1);
+  return send(res, 200, { ok: true });
 }
 
 const ACTIONS = {
@@ -178,6 +234,7 @@ async function handlePanel(req, res, url) {
   if (url.pathname === '/panel/api/state' && req.method === 'GET') return send(res, 200, panelState());
   // درخواست‌های تغییر فقط با سرآیند سفارشی (جلوگیری از ارسال از سایت دیگر)
   if (req.method !== 'POST' || req.headers['x-panel'] !== '1') return send(res, 404, { message: 'یافت نشد' });
+  if (url.pathname.startsWith('/panel/api/docs')) return handleDocsPanel(req, res, url);
   const body = await readBody(req);
   if (url.pathname === '/panel/api/rebuild') {
     if (kit.busy) return send(res, 409, { message: `کار دیگری در حال اجراست: ${kit.busy.label}` });
@@ -206,6 +263,10 @@ const server = http.createServer(async (req, res) => {
       return await handleRequest(req, res);
     }
     if (url.pathname === '/panel' || url.pathname.startsWith('/panel/')) return await handlePanel(req, res, url);
+    // فهرست و دانلود فایل‌های راهنما (عمومی)
+    if (url.pathname === '/api/docs' && req.method === 'GET') return send(res, 200, docs.list(), { 'cache-control': 'public, max-age=60' });
+    const dm = url.pathname.match(/^\/docs\/([a-f0-9]+)(\/[^/]*)?$/);
+    if (dm && (req.method === 'GET' || req.method === 'HEAD')) return await serveDoc(req, res, dm[1]);
     send(res, 404, { message: 'یافت نشد' });
   } catch (e) {
     const status = e.status && e.status < 500 ? e.status : 500;

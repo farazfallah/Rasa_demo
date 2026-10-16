@@ -53,6 +53,15 @@ details { margin-top: 20px; }
 pre.log { direction: ltr; text-align: left; font-size: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; max-height: 360px; overflow: auto; white-space: pre-wrap; }
 .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: 10px; opacity: 0; transition: opacity .2s; pointer-events: none; }
 .toast.show { opacity: 1; }
+.docs { margin-bottom: 16px; }
+.docs h2 { font-size: 16px; margin: 0 0 4px; }
+.doc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 8px 0; border-top: 1px solid var(--line); }
+.doc-row:first-of-type { border-top: 0; }
+.doc-row .title { font-weight: 700; flex: 1; min-width: 180px; }
+.upload { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.upload input[type=text] { min-width: 220px; flex: 1; }
+.progress { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; flex-basis: 100%; display: none; }
+.progress i { display: block; height: 100%; width: 0; background: var(--brand); transition: width .2s; }
 </style>
 </head>
 <body>
@@ -62,6 +71,17 @@ pre.log { direction: ltr; text-align: left; font-size: 12px; background: var(--c
     <div class="meta" id="demo-url"></div>
   </header>
   <div class="card status" id="status">در حال بارگذاری…</div>
+  <div class="card docs">
+    <h2>فایل‌های راهنمای سامانه</h2>
+    <div class="meta">این فایل‌ها در صفحه «راهنمای کامل» سایت (<a href="/manual" target="_blank">/manual</a>) برای دانلود نمایش داده می‌شوند. فایل اول فهرست، فایل اصلی است.</div>
+    <div id="docs-list"></div>
+    <form class="upload" id="upload" onsubmit="uploadDoc(event)">
+      <input type="text" id="doc-title" placeholder="عنوان (مثلا راهنمای کامل سامانه رسا)" maxlength="120">
+      <input type="file" id="doc-file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+      <button class="primary" id="doc-btn">بارگذاری</button>
+      <div class="progress" id="doc-progress"><i></i></div>
+    </form>
+  </div>
   <div class="tabs" id="tabs"></div>
   <div id="list"></div>
   <details>
@@ -203,9 +223,75 @@ function leadCard(l) {
   </div>`;
 }
 
+function size(n) {
+  return n >= 1048576 ? `${fa((n / 1048576).toFixed(1))} مگابایت` : `${fa(Math.ceil(n / 1024))} کیلوبایت`;
+}
+
+function renderDocs() {
+  const docs = state.docs || [];
+  document.getElementById('docs-list').innerHTML = docs.length
+    ? docs.map((d, i) => `<div class="doc-row">
+        <span class="title">${esc(d.title)}</span>
+        <span class="badge ${d.type === 'pdf' ? 'bad' : ''}">${d.type.toUpperCase()}</span>
+        <span class="meta">${size(d.size)} · ${date(d.uploadedAt)}</span>
+        <a href="${esc(d.url)}" target="_blank">دانلود</a>
+        <button onclick="docAct('${d.id}','up')" ${i === 0 ? 'disabled' : ''} title="بالاتر">▲</button>
+        <button onclick="docAct('${d.id}','down')" ${i === docs.length - 1 ? 'disabled' : ''} title="پایین‌تر">▼</button>
+        <button onclick="renameDoc('${d.id}')">تغییر عنوان</button>
+        <button class="danger" onclick="docAct('${d.id}','delete',{},'«${esc(d.title)}» حذف شود؟')">حذف</button>
+      </div>`).join('')
+    : '<div class="meta" style="padding:8px 0">هنوز فایلی بارگذاری نشده است.</div>';
+}
+
+async function docAct(id, action, body = {}, confirmText) {
+  if (confirmText && !confirm(confirmText)) return;
+  const res = await fetch(`/panel/api/docs/${id}/${action}`, { method: 'POST', headers: { 'content-type': 'application/json', 'x-panel': '1' }, body: JSON.stringify(body) });
+  const data = await res.json().catch(() => ({}));
+  toast(res.ok ? 'انجام شد' : data.message || 'خطا');
+  await load();
+}
+
+function renameDoc(id) {
+  const d = state.docs.find((x) => x.id === id);
+  const title = prompt('عنوان تازه:', d.title);
+  if (title && title.trim()) docAct(id, 'rename', { title: title.trim() });
+}
+
+function uploadDoc(e) {
+  e.preventDefault();
+  const file = document.getElementById('doc-file').files[0];
+  if (!file) return;
+  const btn = document.getElementById('doc-btn');
+  const bar = document.getElementById('doc-progress');
+  btn.disabled = true;
+  bar.style.display = 'block';
+  // XMLHttpRequest برای نمایش پیشرفت بارگذاری فایل‌های بزرگ
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/panel/api/docs');
+  xhr.setRequestHeader('x-panel', '1');
+  xhr.setRequestHeader('content-type', 'application/octet-stream');
+  xhr.setRequestHeader('x-filename', encodeURIComponent(file.name));
+  xhr.setRequestHeader('x-title', encodeURIComponent(document.getElementById('doc-title').value.trim()));
+  xhr.upload.onprogress = (ev) => { if (ev.lengthComputable) bar.firstElementChild.style.width = `${(ev.loaded / ev.total) * 100}%`; };
+  xhr.onloadend = async () => {
+    btn.disabled = false;
+    bar.style.display = 'none';
+    bar.firstElementChild.style.width = '0';
+    let data = {};
+    try { data = JSON.parse(xhr.responseText); } catch {}
+    if (xhr.status >= 200 && xhr.status < 300) {
+      toast('فایل بارگذاری شد');
+      document.getElementById('upload').reset();
+    } else toast(data.message || 'بارگذاری ناموفق بود');
+    await load();
+  };
+  xhr.send(file);
+}
+
 function render() {
   if (!state) return;
   renderStatus();
+  renderDocs();
   renderTabs();
   const leads = state.leads.filter((l) => tab === 'all' || l.status === tab);
   document.getElementById('list').innerHTML = leads.length ? leads.map(leadCard).join('') : '<div class="empty">موردی نیست.</div>';

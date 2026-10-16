@@ -286,6 +286,38 @@ export async function setupClasses(ctx, perClass) {
 }
 
 /** برنامه هفتگی امسال با زمان‌بند خودکار خود سامانه */
+/** کلاس آنلاین: روشن کردن بخش، اتصال به سرور کلاس و چند جلسه نمونه (شورای دبیران، کلاس تقویتی، جلسه اولیا) */
+export async function setupOnline(ctx) {
+  const { admin } = ctx;
+  await admin.patch('/settings/modules/online', { enabled: true });
+  await admin.put('/online/config', {
+    url: ctx.online.url,
+    secret: ctx.online.secret,
+    checksum: 'sha256',
+    prefix: 'demo',
+    record: true,
+    muteOnStart: true,
+    guestApproval: false,
+    welcome: `به کلاس آنلاین ${SCHOOL.name} خوش آمدید.`,
+    locale: 'fa-IR',
+    presentation: 'blank',
+    brandColor: '#2459a6',
+    showBanner: true,
+    showLogo: true,
+    persianFont: true,
+    customCss: '',
+  });
+  const manager = ctx.staff.manager.id;
+  const math = ctx.teachers[0].id;
+  const audience = (a) => ({ roles: [], classroomIds: [], parentClassroomIds: [], userIds: [], ...a });
+  const rooms = [
+    { title: 'شورای دبیران', description: 'جلسه شورای دبیران؛ بررسی پیشرفت تحصیلی کلاس‌ها', kind: 'meeting', hostIds: [manager], audience: audience({ roles: ['teacher'] }), schedule: { type: 'weekly', days: [2], start: '13:30', end: '14:30' }, record: true },
+    { title: 'کلاس تقویتی ریاضی', description: 'رفع اشکال و حل تمرین برای آمادگی امتحان', kind: 'extra', hostIds: [math], audience: audience({ roles: ['student'] }), schedule: { type: 'weekly', days: [1, 3], start: '16:00', end: '17:00' }, record: true },
+    { title: 'جلسه اولیا و مربیان', description: 'گزارش پیشرفت تحصیلی و برنامه‌های نیم‌سال', kind: 'parents', hostIds: [manager], audience: audience({ roles: ['parent'] }), schedule: { type: 'weekly', days: [4], start: '18:00', end: '19:00' }, record: false },
+  ];
+  for (const r of rooms) await admin.post('/online/rooms', { ...r, muteOnStart: true, active: true });
+}
+
 export async function setupTimetable(ctx) {
   const { admin } = ctx;
   await admin.put('/timetable/config', {

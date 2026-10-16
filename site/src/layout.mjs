@@ -12,8 +12,10 @@ export const icon = (name, cls = 'ic') => `<svg class="${cls}" aria-hidden="true
 /** منوی اصلی (هم سربرگ و هم منوی موبایل) */
 export const NAV = [
   ['/features', 'امکانات'],
+  ['/features/online-class', 'کلاس آنلاین'],
   ['/features/timetable', 'برنامه هفتگی'],
   ['/features/report-card', 'کارنامه'],
+  ['/manual', 'راهنمای کامل'],
   ['/guides', 'راهنماها'],
   ['/faq', 'پرسش‌ها'],
   ['/security', 'امنیت و نصب'],
@@ -82,7 +84,7 @@ ${noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robo
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${SITE}${image}">
 <link rel="preload" href="/fonts/Vazirmatn.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css?v=3">
+<link rel="stylesheet" href="/assets/site.css?v=4">
 <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 ${jsonLd([ORG_LD, ...schema])}
@@ -121,12 +123,13 @@ ${body}
         <img src="/assets/logo.svg" alt="" width="32" height="32">
         <span>${BRAND}</span>
       </a>
-      <p>نرم‌افزار یکپارچه مدیریت مدرسه برای مدارس ابتدایی، متوسطه اول و دوم: حضور و غیاب، کارنامه، آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا؛ روی سرور خود مدرسه.</p>
+      <p>نرم‌افزار یکپارچه مدیریت مدرسه برای مدارس ابتدایی، متوسطه اول و دوم: حضور و غیاب، کارنامه، کلاس و آزمون آنلاین، برنامه هفتگی، امتحانات نوبت، شهریه و پرتال اولیا؛ روی سرور خود مدرسه.</p>
     </div>
     <nav aria-label="امکانات">
       <b>امکانات</b>
       <a href="/features/attendance">حضور و غیاب</a>
       <a href="/features/report-card">کارنامه و دفتر نمره</a>
+      <a href="/features/online-class">کلاس آنلاین</a>
       <a href="/features/online-exam">آزمون آنلاین</a>
       <a href="/features/timetable">برنامه هفتگی</a>
       <a href="/features/term-exams">امتحانات نوبت</a>
@@ -143,6 +146,7 @@ ${body}
     </nav>
     <nav aria-label="راهنما">
       <b>راهنما و پشتیبانی</b>
+      <a href="/manual">راهنمای کامل سامانه (دانلود)</a>
       <a href="/guides">راهنماها</a>
       <a href="/faq">پرسش‌های رایج</a>
       <a href="/security">امنیت و نصب</a>

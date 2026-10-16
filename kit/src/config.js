@@ -30,6 +30,9 @@ export function loadConfig() {
     /** نسخه اپ؛ با تغییر آن، کیت پس از راه‌اندازی دوباره مدرسه نمونه را از نو می‌سازد */
     appVersion: env.APP_VERSION || null,
     zarinpalMerchant: env.ZARINPAL_SANDBOX_MERCHANT || null,
+    /** سرور کلاس آنلاین برای نمایش این امکان در دمو؛ بدون آن بخش کلاس آنلاین خاموش می‌ماند */
+    onlineUrl: env.DEMO_ONLINE_URL || null,
+    onlineSecret: env.DEMO_ONLINE_SECRET || null,
     dataDir: path.resolve(env.DATA_DIR ?? './data'),
     maintenanceFile: env.MAINTENANCE_FILE || null,
     port: Number(env.PORT ?? 8090),

@@ -9,6 +9,13 @@ handle /api/demo-requests {
 handle /panel* {
 	reverse_proxy kit:8090
 }
+# فایل‌های راهنمای سامانه (بارگذاری از پنل، دانلود در صفحه «راهنمای کامل»)
+handle /api/docs {
+	reverse_proxy kit:8090
+}
+handle /docs/* {
+	reverse_proxy kit:8090
+}
 
 # صفحه‌ها با نشانی بدون .html (مثلا /features/timetable)؛ نشانی‌های قدیمی و با / پایانی به نشانی اصلی می‌روند
 handle {

@@ -82,6 +82,8 @@ services:
       RESET_AT: ${RESET_AT:-03:30}
       LEAD_DAYS: ${LEAD_DAYS:-7}
       ZARINPAL_SANDBOX_MERCHANT: ${ZARINPAL_SANDBOX_MERCHANT:-}
+      DEMO_ONLINE_URL: ${DEMO_ONLINE_URL:-}
+      DEMO_ONLINE_SECRET: ${DEMO_ONLINE_SECRET:-}
       MAINTENANCE_FILE: /state/maintenance
     volumes:
       - kitdata:/data
