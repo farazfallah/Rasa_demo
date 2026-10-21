@@ -270,11 +270,29 @@ export async function announcements(ctx, classes) {
   });
 }
 
+/** نمره کارنامه هر درس: پیشنهاد سامانه پذیرفته و ثبت نهایی می‌شود (مثل کار معلم پیش از صدور کارنامه) */
+async function submitTermMarks(ctx, termId) {
+  const status = await ctx.admin.get(`/grading/term-marks/status?termId=${termId}`);
+  for (const room of status.classes) {
+    for (const course of room.courses) {
+      if (course.submittedAt) continue;
+      const sheet = await ctx.admin.get(`/grading/term-marks?classCourseId=${course.classCourseId}&termId=${termId}`);
+      const marks = sheet.students.map((s) => {
+        const continuous = s.continuous ?? s.suggestedContinuous ?? s.suggestedFinal ?? 15;
+        return { studentId: s.id, continuous, final: s.final ?? s.suggestedFinal ?? continuous };
+      });
+      if (marks.length) await ctx.admin.put('/grading/term-marks', { classCourseId: course.classCourseId, termId, marks, submit: true });
+    }
+  }
+}
+
 /** گزارش کارنامه نوبت‌ها و سال‌های تمام‌شده */
 export async function publishReports(ctx) {
   for (const plan of ctx.years) {
     for (const term of plan.terms) {
-      if (term.end <= plan.historyEnd) await ctx.admin.post(`/report-cards/publish/term/${term.id}`, { published: true });
+      if (term.end > plan.historyEnd) continue;
+      await submitTermMarks(ctx, term.id);
+      await ctx.admin.post(`/report-cards/publish/term/${term.id}`, { published: true, force: true });
     }
     if (plan.end <= plan.historyEnd) await ctx.admin.post(`/report-cards/publish/year/${plan.id}`, { published: true });
   }
