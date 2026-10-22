@@ -61,8 +61,27 @@ done
 exec 9>"$DIR/.update.lock"
 flock -n 9 || die "به‌روزرسانی دیگری در حال اجراست"
 
+# کیت دمو (سازنده مدرسه نمونه) همراه اپ به‌روز می‌شود؛ نسخه تازه اپ با کیت قدیمی ممکن است ناسازگار باشد
+# (مثلا صدور کارنامه بدون ثبت نهایی نمره‌ها). اسکریپت پس از به‌روزرسانی، یک بار خودش را از نو اجرا می‌کند.
+REPO_DIR=$(cd "$DIR/.." && pwd)
+if [ -z "${KIT_PULLED:-}" ] && git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  before=$(git -C "$REPO_DIR" rev-parse HEAD)
+  if git -C "$REPO_DIR" pull --ff-only -q 2>/dev/null; then
+    after=$(git -C "$REPO_DIR" rev-parse HEAD)
+    if [ "$before" != "$after" ]; then
+      log "کیت دمو به‌روز شد ($(git -C "$REPO_DIR" log -1 --format=%s))"
+      exec 9>&-
+      KIT_PULLED=1 KIT_CHANGED=1 exec "$DIR/update-demo.sh" "$@"
+    fi
+  else
+    log "هشدار: به‌روزرسانی کیت دمو از git ممکن نشد (دسترسی یا تغییرات محلی)؛ با کیت فعلی ادامه می‌دهم"
+  fi
+fi
+
 FORCE=0
 [ "${1:-}" = --force ] && { FORCE=1; shift; }
+# کیت عوض شده: حتی اگر نسخه اپ همان باشد، کیت باید از نو ساخته شود
+[ -n "${KIT_CHANGED:-}" ] && FORCE=1
 FILE=""; VERSION=""
 case "${1:-}" in
   --file) FILE=${2:?مسیر فایل را بدهید}; VERSION=$(basename "$FILE" | sed -n 's/^school-app-\(.*\)\.tar\.gz$/\1/p'); [ -n "$VERSION" ] || die "نام فایل باید school-app-X.Y.Z.tar.gz باشد" ;;

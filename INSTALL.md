@@ -121,7 +121,7 @@ ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw --force enable
 |---|---|
 | به‌روزرسانی به آخرین نسخه اپ | `./update-demo.sh` |
 | نسخه مشخص | `./update-demo.sh 2.2.0` |
-| به‌روزرسانی خود این مخزن (سایت، کیت، تنظیمات) | `git -C /opt/rasa-demo pull && ./update-demo.sh --force` |
+| به‌روزرسانی خود این مخزن (سایت، کیت، تنظیمات) | `./update-demo.sh` خودش اول `git pull` می‌کند؛ اگر کیت عوض شده باشد آن را از نو می‌سازد |
 | تغییر دامنه یا توکن | `./install.sh` (پاسخ‌های فعلی پیش‌فرض هستند و رمزها عوض نمی‌شوند) |
 | وضعیت | `./check.sh` و `docker compose ps` |
 | لاگ‌ها | `docker compose logs --tail=100 api` (یا `kit`، `caddy`، `web`) |
