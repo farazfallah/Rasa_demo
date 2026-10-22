@@ -26,6 +26,8 @@ handle {
 	@slash path_regexp slash ^(/.+)/$
 	redir @slash {re.slash.1} 301
 	# پوشه منبع سایت (قالب‌ها، اسکریپت ساخت و متن Markdown مقاله‌ها) منتشر نمی‌شود
+	# Robots.txt با R بزرگ هم همان فایل robots.txt را برمی‌گرداند
+	rewrite /Robots.txt /robots.txt
 	respond /src/* 404
 	respond /content/* 404
 	respond /CONTENT.md 404
