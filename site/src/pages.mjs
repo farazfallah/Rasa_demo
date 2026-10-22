@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { breadcrumbLd, breadcrumbs, CTA, esc, faqLd, icon, SITE } from './layout.mjs';
 import { FEATURES } from './features.mjs';
-import { GUIDES } from './guides.mjs';
+import { ARTICLES, guideCards } from './articles.mjs';
 
 const read = (f) => readFileSync(new URL(f, import.meta.url), 'utf8');
 const DEMO_FORM = read('./demo-form.html');
@@ -38,8 +38,9 @@ export function homePage() {
     <div class="container">
       <div class="head center"><p class="eyebrow">راهنماها</p><h2>برای مدیران و معاونان مدارس</h2></div>
       <div class="feature-grid">
-        ${GUIDES.map((g) => `<a class="feature-card" href="/guides/${g.slug}"><h3>${esc(g.h1)}</h3><p>${esc(g.description)}</p><span class="more">خواندن راهنما ${icon('arrow')}</span></a>`).join('\n        ')}
+        ${guideCards(ARTICLES.slice(0, 3))}
       </div>
+      <p class="center-link"><a href="/guides">همه راهنماها ${icon('arrow')}</a></p>
     </div>
   </section>
 `;

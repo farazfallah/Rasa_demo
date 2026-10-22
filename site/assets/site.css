@@ -447,6 +447,29 @@ h1 .pill { display: flex; width: fit-content; line-height: 1.6; }
 .note p { margin: 4px 0 0; color: var(--ink); }
 .note a { color: var(--brand); font-weight: 700; }
 
+/* مقاله‌های راهنما (Markdown) */
+.prose h2 { scroll-margin-top: 92px; margin-top: 40px; }
+.prose h2:first-child { margin-top: 0; }
+.prose h3 { font-size: 19px; margin: 24px 0 8px; }
+.prose ul, .prose ol { color: var(--muted); font-size: 17px; margin: 0 0 18px; padding-inline-start: 22px; display: grid; gap: 6px; }
+.prose li::marker { color: var(--brand); }
+.prose ol { list-style: persian; }
+.prose strong { color: var(--ink); }
+.prose a { color: var(--brand); font-weight: 600; }
+.prose code { font-size: .9em; padding: 1px 6px; border-radius: 6px; background: var(--tint); }
+.prose .note { margin: 24px 0; }
+.prose figure { margin: 24px 0; }
+.prose figure img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); }
+.prose figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); text-align: center; }
+.table-wrap { overflow-x: auto; margin: 0 0 20px; border: 1px solid var(--line); border-radius: 14px; }
+.table-wrap table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.table-wrap th, .table-wrap td { padding: 10px 14px; text-align: start; border-bottom: 1px solid var(--line); vertical-align: top; }
+.table-wrap th { background: var(--tint); font-weight: 700; }
+.table-wrap tr:last-child td { border-bottom: 0; }
+.prose .faq details { margin-bottom: 10px; }
+.guide-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+.guide-card .guide-meta { margin: 0; font-size: 13px; }
+
 .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .feature-card {
   display: flex; flex-direction: column; gap: 8px; padding: 26px; border-radius: var(--radius); text-decoration: none;

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>راهنماهای مدیریت مدرسه | سامانه رسا</title>
+  <link>https://{{.Host}}/guides</link>
+  <atom:link href="https://{{.Host}}/feed.xml" rel="self" type="application/rss+xml"/>
+  <description>راهنماهای کاربردی برای مدیران، معاونان و معلمان مدارس</description>
+  <language>fa-IR</language>
+  <item>
+    <title>حضور و غیاب الکترونیک در مدرسه؛ از دفتر کلاسی کاغذی تا گوشی معلم</title>
+    <link>https://{{.Host}}/guides/electronic-attendance-class-register</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/electronic-attendance-class-register</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>راهنمای پیاده‌سازی حضور و غیاب الکترونیک در مدرسه: ثبت هر زنگ با گوشی معلم، اطلاع فوری به اولیا، تأخیر و غیبت موجه، دستگاه اثر انگشت و گزارش‌های کاربردی.</description>
+  </item>
+  <item>
+    <title>پیش‌ثبت‌نام آنلاین مدرسه؛ راهنمای برگزاری از فرم تا پذیرش</title>
+    <link>https://{{.Host}}/guides/online-school-pre-registration</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/online-school-pre-registration</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>راهنمای برگزاری پیش‌ثبت‌نام آنلاین مدرسه: طراحی فرم، مدارک لازم، امتیازدهی شفاف، ظرفیت هر پایه، اطلاع‌رسانی نتیجه و تبدیل پذیرفته‌شدگان به دانش‌آموز.</description>
+  </item>
+  <item>
+    <title>ارتباط مدرسه با اولیا؛ چه پیامی، از چه راهی و چه وقت</title>
+    <link>https://{{.Host}}/guides/parent-school-communication</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/parent-school-communication</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>راهنمای ارتباط مدرسه با اولیا: چه خبرهایی پیامک شود، کدام اطلاعیه در پرتال اولیا بماند، مخاطب درست هر پیام و پرهیز از پیام‌های زیاد که دیگر خوانده نمی‌شوند.</description>
+  </item>
+  <item>
+    <title>نمره مستمر و پایانی چیست و معدل کارنامه چطور حساب می‌شود؟</title>
+    <link>https://{{.Host}}/guides/report-card-continuous-final-grades</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/report-card-continuous-final-grades</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>توضیح ساده نمره مستمر و پایانی، نمره هر نوبت، معدل وزنی با تعداد واحد، کارنامه توصیفی ابتدایی و خطاهای رایج مدارس هنگام ساخت کارنامه پایان نوبت.</description>
+  </item>
+  <item>
+    <title>وصول شهریه مدارس غیردولتی بدون تنش؛ قسط، تخفیف و پرداخت آنلاین</title>
+    <link>https://{{.Host}}/guides/school-tuition-collection</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/school-tuition-collection</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>راهنمای عملی وصول شهریه مدارس غیردولتی: تعیین اقساط، تخفیف خواهر و برادر، یادآوری محترمانه، پرداخت آنلاین با رسید خودکار و گزارش بدهکاران برای حسابداری.</description>
+  </item>
+  <item>
+    <title>حرکات اصلاحی برای معلمان و کادر مدرسه؛ ۸ حرکت ساده بین کارها</title>
+    <link>https://{{.Host}}/guides/teacher-stretching-exercises</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/teacher-stretching-exercises</guid>
+    <pubDate>Thu, 22 Oct 2026 08:00:00 GMT</pubDate>
+    <description>حرکات اصلاحی برای معلمان و کادر مدرسه که ساعت‌ها ایستاده درس می‌دهند یا پشت میز کار می‌کنند: گردن، شانه، کمر، مچ دست، پا و چشم، در کمتر از پنج دقیقه.</description>
+  </item>
+  <item>
+    <title>چطور نرم‌افزار مدیریت مدرسه انتخاب کنیم؟ چک‌لیست ۱۲ موردی</title>
+    <link>https://{{.Host}}/guides/choose-school-management-software</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/choose-school-management-software</guid>
+    <pubDate>Wed, 14 Oct 2026 08:00:00 GMT</pubDate>
+    <description>پیش از خرید نرم‌افزار مدیریت مدرسه این ۱۲ مورد را بپرسید: محل نگهداری اطلاعات، پشتیبان‌گیری، کارنامه رسمی، حضور و غیاب، برنامه هفتگی، پرتال اولیا و ورود از اکسل.</description>
+  </item>
+  <item>
+    <title>آزمون آنلاین سالم در مدرسه؛ ۷ روش عملی برای کاهش تقلب</title>
+    <link>https://{{.Host}}/guides/online-exam-integrity</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/online-exam-integrity</guid>
+    <pubDate>Wed, 14 Oct 2026 08:00:00 GMT</pubDate>
+    <description>روش‌های عملی برای برگزاری آزمون آنلاین سالم در مدرسه: نسخه متفاوت برای هر دانش‌آموز، بانک سؤال، سؤال تحلیلی، زمان‌بندی، ثبت رویدادها و آمادگی برای قطعی اینترنت.</description>
+  </item>
+  <item>
+    <title>چیدن برنامه هفتگی مدرسه بدون تداخل؛ راهنمای گام‌به‌گام</title>
+    <link>https://{{.Host}}/guides/school-weekly-timetable</link>
+    <guid isPermaLink="true">https://{{.Host}}/guides/school-weekly-timetable</guid>
+    <pubDate>Wed, 14 Oct 2026 08:00:00 GMT</pubDate>
+    <description>راهنمای گام‌به‌گام چیدن برنامه هفتگی مدرسه: ساعت درس‌ها، روزهای حضور معلمان پاره‌وقت، زنگ دوتایی و تک‌زنگ، و کاری که وقتی برنامه جا نمی‌شود باید کرد.</description>
+  </item>
+</channel>
+</rss>

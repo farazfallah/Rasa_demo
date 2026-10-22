@@ -44,5 +44,17 @@ for d in "$SITE" "$DEMO"; do
   elif [ -z "$body" ]; then bad "https://$d از بیرون پاسخی نداد (DNS هنوز منتشر نشده؟ تنظیم CDN؟)"
   else bad "https://$d صفحه CDN برگرداند (پروتکل مبدأ، فایروال یا چالش امنیتی CDN را بررسی کنید)"; fi
 done
+# robots.txt و sitemap برای ربات گوگل: اگر CDN یا فایروال آن را با چالش امنیتی، 403 یا 5xx جواب دهد
+# گوگل کل سایت را ایندکس نمی‌کند («Robots.txt unreachable» در Search Console)
+UA='Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+for f in robots.txt sitemap.xml; do
+  code=$(curl -s -o /tmp/rasa-check-$f -w '%{http_code}' --max-time 15 -A "$UA" "https://$SITE/$f")
+  if [ "$code" = 200 ] && grep -q -e "Sitemap:" -e "<urlset" /tmp/rasa-check-$f; then ok "$f برای ربات گوگل ($code)"
+  else bad "https://$SITE/$f برای ربات گوگل: کد $code (چالش امنیتی، فایروال یا محدودیت جغرافیایی CDN را برای ربات‌های جستجو بردارید)"; fi
+  rm -f /tmp/rasa-check-$f
+done
+echo "  نکته: این بررسی از داخل همین سرور است؛ ربات گوگل از خارج از ایران وصل می‌شود. از یک سرور خارجی هم بزنید:"
+echo "  curl -I -A '$UA' https://$SITE/robots.txt"
+
 [ $FAIL = 0 ] && echo "همه‌چیز درست است." || echo "موارد بالا را برطرف کنید و دوباره ./check.sh را اجرا کنید."
 exit $FAIL

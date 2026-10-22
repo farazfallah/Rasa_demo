@@ -1,6 +1,7 @@
 // صفحه‌های امکانات: هر صفحه برای یک جستجوی رایج نوشته شده (مثلا «نرم افزار حضور و غیاب مدرسه»)
 // با متن کامل، پرسش‌های رایج (FAQPage) و پیوند به امکانات مرتبط.
 import { breadcrumbLd, breadcrumbs, CTA, esc, faqLd, icon, SITE } from './layout.mjs';
+import { guideCards } from './articles.mjs';
 
 export const FEATURES = [
   {
@@ -451,7 +452,7 @@ function shotHtml(f) {
   return `<div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>${esc(f.name)}</span></div><img src="/assets/shots/${f.shot}.jpg" alt="${esc(f.h1)} در سامانه رسا" width="1600" height="1000"></div>`;
 }
 
-export function featurePage(f) {
+export function featurePage(f, guides = []) {
   const path = `/features/${f.slug}`;
   const trail = [
     ['/', 'خانه'],
@@ -509,6 +510,16 @@ export function featurePage(f) {
     </div>
   </div>
 
+  ${
+    guides.length
+      ? `<section class="section">
+    <div class="container">
+      <div class="head center"><h2>راهنماهای مرتبط</h2></div>
+      <div class="feature-grid">${guideCards(guides)}</div>
+    </div>
+  </section>`
+      : ''
+  }
   <section class="section section-tint">
     <div class="container">
       <div class="head center"><h2>امکانات مرتبط</h2></div>

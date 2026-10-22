@@ -25,8 +25,10 @@ handle {
 	redir @html {re.html.1} 301
 	@slash path_regexp slash ^(/.+)/$
 	redir @slash {re.slash.1} 301
-	# پوشه منبع سایت (قالب‌ها و اسکریپت ساخت) منتشر نمی‌شود
+	# پوشه منبع سایت (قالب‌ها، اسکریپت ساخت و متن Markdown مقاله‌ها) منتشر نمی‌شود
 	respond /src/* 404
+	respond /content/* 404
+	respond /CONTENT.md 404
 	try_files {path} {path}.html
 	# دامنه سایت در canonical، sitemap و robots از درخواست پر می‌شود ({{.Host}})
 	templates {

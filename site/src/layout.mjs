@@ -84,9 +84,10 @@ ${noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robo
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${SITE}${image}">
 <link rel="preload" href="/fonts/Vazirmatn.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css?v=4">
+<link rel="stylesheet" href="/assets/site.css?v=5">
 <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="application/rss+xml" title="راهنماهای سامانه رسا" href="${SITE}/feed.xml">
 ${jsonLd([ORG_LD, ...schema])}
 </head>
 <body>
